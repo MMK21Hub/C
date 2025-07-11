@@ -1,0 +1,6 @@
+{
+  "name": "@mmk21/c",
+  "version": "0.1.0",
+  "description": "A programming language that looks like Chess notation",
+  "packageManager": "yarn@4.9.2"
+}
