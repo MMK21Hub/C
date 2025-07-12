@@ -115,6 +115,16 @@ If performing an arithmetic operation would result in an overflow, an exception 
 
 The bitwise NOT operator is not available, but you can get a close approximation by negating the value.
 
+#### Boolean operations
+
+<!-- prettier-ignore -->
+| Operator | Action |
+| -------- | ------ |
+| `&&` | Results in a `1` if both operands are non-zero. Otherwise, results in a `0`. |
+| `\|\|` | Results in a `1` if at least one of the operands is non-zero. Otherwise, results in a `0`. |
+
+The boolean not (`!`) operator is not available - sorry about that. Try writing your if statements the other way around instead.
+
 ### Reference
 
 #### Reserved characters
