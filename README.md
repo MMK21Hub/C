@@ -101,7 +101,19 @@ If performing an arithmetic operation would result in an overflow, an exception 
 | `**` | Exponentiation. Raises the first operand to the power of the second operand. |
 | `***` | First operand tetrated to the second operand. For clarity, it's the forth hyperoperation. |
 | `log` | Logarithm of the first operand to the base of the second operand. Throws an exception if the result is not an integer. |
-| `throot` | Finds the _n_th root of the second operand, where _n_ is the first operand. Note that the order of operands for this operation is reversed compared to the others. This was an irrational decision by the designers of C. |
+| `throot` | Finds the _n_th root of the second operand, where _n_ is the first operand. Note that the order of operands for this operation is reversed compared to the others. This was an intentional irrational decision by the designers of C. |
+
+#### Bitwise operations
+
+| Operator | Action                                                       |
+| -------- | ------------------------------------------------------------ |
+| `&`      | Bitwise AND.                                                 |
+| `\|`     | Bitwise OR.                                                  |
+| `^`      | Bitwise XOR.                                                 |
+| `<<`     | Binary-shifts the first operand left by the second operand.  |
+| `>>`     | Binary-shifts the first operand right by the second operand. |
+
+The bitwise NOT operator is not available, but you can get a close approximation by negating the value.
 
 ### Reference
 
