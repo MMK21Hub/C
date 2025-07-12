@@ -62,6 +62,8 @@ If you wish to overwrite the data that already exists on a square, you must use 
 2. The second character must be an `x` so that the data can be overwritten.
 3. The next two characters are a [reference](#referencing-board-squares) to the square that should have its data overwritten.
 
+Example: `Nxe4` would replace the data on the square `e4` with N<sub>32</sub> (i.e. 21).
+
 Performing a capture instruction on an empty square is currently undefined behaviour.
 
 ### Named memory locations (variables)
@@ -85,6 +87,11 @@ Arithmetic operation instructions consist of 5 or more characters, depending on 
 1. The first two characters are a [reference](#referencing-board-squares) to the square that contains the first operand.
 2. Next is the operator, which is usually one character, but may be up to 6 characters. See below for valid operators.
 3. The last two characters are a [reference](#referencing-board-squares) to the square that contains the second operand.
+
+Examples:
+
+- `e4+f5` would add the values in the squares `e4` and `f5`, and write the result to `e4`, overwriting the previous contents of `e4`.
+- `Ba1 a1logb1` would take the base-2 logarithm of the value in `b1`, writing the result to `a1`.
 
 #### Arithmetic operators
 
