@@ -88,10 +88,7 @@ Arithmetic operation instructions consist of 5 or more characters, depending on 
 2. Next is the operator, which is usually one character, but may be up to 6 characters. See below for valid operators.
 3. The last two characters are a [reference](#referencing-board-squares) to the square that contains the second operand.
 
-Examples:
-
-- `e4+f5` would add the values in the squares `e4` and `f5`, and write the result to `e4`, overwriting the previous contents of `e4`.
-- `Ba1 a1logb1` would take the base-2 logarithm of the value in `b1`, writing the result to `a1`.
+If either square doesn't contain any data, a `NullPointerException` is thrown.
 
 #### Arithmetic operators
 
@@ -131,6 +128,11 @@ The bitwise NOT operator is not available, but you can get a close approximation
 | `\|\|` | Results in a `1` if at least one of the operands is non-zero. Otherwise, results in a `0`. |
 
 The boolean not (`!`) operator is not available - sorry about that. Try writing your if statements the other way around instead.
+
+#### Operation examples
+
+- `e4+f5` would add the values in the squares `e4` and `f5`, and write the result to `e4`, overwriting the previous contents of `e4`.
+- `Ba1 a1logb1` would take the base-2 logarithm of the value in `b1`, writing the result to `a1`.
 
 ### Reference
 
