@@ -9,9 +9,28 @@
 - Programs are made up of instructions separated by whitespace.
 - Each instruction is a few ASCII characters that describes an operation to perform, data to be written to a square, or another kind of action.
 
+### Values
+
+Many programming languages work with bytes (8-bit values) as their native unit of data. C works with 5-bit values, and each 5-bit value is called a _piece_. When written down, a piece is canonically represented as a single [RFC 4648 base-32](https://datatracker.ietf.org/doc/html/rfc4648#section-6) character. This notation starts at `A` for 0, going up to `Z` to represent 25, and then uses the digits `2` to `7` to represent values 26 to 31.
+
+The following table, copied [from Wikipedia](https://en.wikipedia.org/wiki/Base32#Base_32_Encoding_per_%C2%A76), shows the mapping of denary (base-10) values to their RFC 4648 base-32 representations.
+
+| Value | Symbol | Value | Symbol | Value | Symbol | Value | Symbol |
+| ----- | ------ | ----- | ------ | ----- | ------ | ----- | ------ |
+| 0     | **A**  | 8     | **I**  | 16    | **Q**  | 24    | **Y**  |
+| 1     | **B**  | 9     | **J**  | 17    | **R**  | 25    | **Z**  |
+| 2     | **C**  | 10    | **K**  | 18    | **S**  | 26    | **2**  |
+| 3     | **D**  | 11    | **L**  | 19    | **T**  | 27    | **3**  |
+| 4     | **E**  | 12    | **M**  | 20    | **U**  | 28    | **4**  |
+| 5     | **F**  | 13    | **N**  | 21    | **V**  | 29    | **5**  |
+| 6     | **G**  | 14    | **O**  | 22    | **W**  | 30    | **6**  |
+| 7     | **H**  | 15    | **P**  | 23    | **X**  | 31    | **7**  |
+
+Throughout this document, values will often be written in RFC 4648 base-32. This will be indicated by a subscript 32, e.g. F<sub>32</sub> to represent the value 5.
+
 ### Referencing board squares
 
-Board squares (equivalent to memory locations) are referenced in the same way as algebraic chess notation. Two characters are used:
+Board squares (equivalent to memory locations) are referenced using coordinates in the same way as algebraic chess notation. Two characters are used:
 
 1. A lowercase letter (`a`-`z`) to specify the file (column).
 2. A non-zero digit (`1`-`9`) to specify the rank (row).
@@ -47,4 +66,19 @@ Performing a capture instruction on an empty square is currently undefined behav
 
 ### Named memory locations (variables)
 
-TODO
+You can give a board square a name by adding it before a [place](#placing-pieces) or [capture](#capturing-pieces) instruction, separated by a dot. Names can be as long as you wish, and may contain any characters from any version of the Unicode standard (including past and future versions), apart from [reserved characters](#reserved-characters). They are case-sensitive and also normalisation-sensitive (so canonically-equivalent names do not refer to each other).
+
+A single square could have multiple names (by attaching a second name to a capture instruction).
+
+You can't do anything with named memory locations, but they exist. Notably, you still have to refer to the square using its coordinates. However, using them might make your code more readable, if you'd like to entertain such an idea as "maintainability".
+
+Example: `score.Ah8` would place the piece the value A<sub>32</sub> (i.e. zero) on the square `h8` (top-right corner) and give it the name `score`.
+
+### Reference
+
+#### Reserved characters
+
+These are characters that cannot be used in names.
+
+- Any whitespace character
+- `.`
