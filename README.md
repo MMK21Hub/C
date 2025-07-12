@@ -78,6 +78,8 @@ Example: `score.Ah8` would place the piece the value A<sub>32</sub> (i.e. zero) 
 
 Arithmetic operations are performed by specifying one square reference, an operator, and then another square reference. As such, it's a sandwich with square references as the bread and an operator as the filling. Scrumptious!
 
+The result of the operation is always written to the square that held the first operand (the previous piece gets captured).
+
 Arithmetic operation instructions consist of 5 or 6 characters, depending on the length of the filling:
 
 1. The first two characters are a [reference](#referencing-board-squares) to the square that contains the first operand.
@@ -86,7 +88,20 @@ Arithmetic operation instructions consist of 5 or 6 characters, depending on the
 
 #### Arithmetic operators
 
-TODO
+If performing an arithmetic operation would result in an overflow, an exception is thrown. Since this response is analogous to a piece being thrown off the board, the data stored in the first square is removed and can no longer be accessed. The data in the second square remains intact. As such, best practice is to always perform operations on your least valuable pieces.
+
+<!-- prettier-ignore -->
+| Operator | Action |
+| -------- | ------ |
+| `+` | Adds the two operands. In simpler terms, it's repeated succession. |
+| `-` | Subtracts the second operand from the first, i.e. `first - second`. Essentially, it's addition where the second operand is negated. |
+| `*` | Multiplies the two operands together. Implementations may choose to use a times table to optimise this. |
+| `/` | Divides of the first operand by the second. As is typical for a language named C, this is integer division. |
+| `%` | First operand modulus-ed by the second operand. It's the remainder from a `/` operation. |
+| `**` | Exponentiation. Raises the first operand to the power of the second operand. |
+| `***` | First operand tetrated to the second operand. For clarity, it's the forth hyperoperation. |
+| `log` | Logarithm of the first operand to the base of the second operand. Throws an exception if the result is not an integer. |
+| `throot` | Finds the _n_th root of the second operand, where _n_ is the first operand. Note that the order of operands for this operation is reversed compared to the others. This was an irrational decision by the designers of C. |
 
 ### Reference
 
