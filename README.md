@@ -80,10 +80,10 @@ Arithmetic operations are performed by specifying one square reference, an opera
 
 The result of the operation is always written to the square that held the first operand (the previous piece gets captured).
 
-Arithmetic operation instructions consist of 5 or 6 characters, depending on the length of the filling:
+Arithmetic operation instructions consist of 5 or more characters, depending on the length of the filling:
 
 1. The first two characters are a [reference](#referencing-board-squares) to the square that contains the first operand.
-2. Next is the operator, which may be one or two characters. See below for valid operators.
+2. Next is the operator, which is usually one character, but may be up to 6 characters. See below for valid operators.
 3. The last two characters are a [reference](#referencing-board-squares) to the square that contains the second operand.
 
 #### Arithmetic operators
