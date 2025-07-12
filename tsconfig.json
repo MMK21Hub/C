@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "esnext",
+    "module": "node18",
+    "lib": ["ES2024", "DOM"],
+    "moduleResolution": "node16",
+    "outDir": "./dist",
+    "skipLibCheck": true
+  }
+}
