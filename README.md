@@ -74,6 +74,20 @@ You can't do anything with named memory locations, but they exist. Notably, you 
 
 Example: `score.Ah8` would place the piece the value A<sub>32</sub> (i.e. zero) on the square `h8` (top-right corner) and give it the name `score`.
 
+### Operations
+
+Arithmetic operations are performed by specifying one square reference, an operator, and then another square reference. As such, it's a sandwich with square references as the bread and an operator as the filling. Scrumptious!
+
+Arithmetic operation instructions consist of 5 or 6 characters, depending on the length of the filling:
+
+1. The first two characters are a [reference](#referencing-board-squares) to the square that contains the first operand.
+2. Next is the operator, which may be one or two characters. See below for valid operators.
+3. The last two characters are a [reference](#referencing-board-squares) to the square that contains the second operand.
+
+#### Arithmetic operators
+
+TODO
+
 ### Reference
 
 #### Reserved characters
