@@ -88,11 +88,15 @@ Arithmetic operation instructions consist of 5 or more characters, depending on 
 2. Next is the operator, which is usually one character, but may be up to 6 characters. See below for valid operators.
 3. The last two characters are a [reference](#referencing-board-squares) to the square that contains the second operand.
 
-If either square doesn't contain any data, a `NullPointerException` is thrown.
+#### Errors with operations
+
+If performing an operation would result in an integer overflow, an `IntegerOverflowException` will be thrown. Since this response is analogous to a piece being thrown off the board, the data stored in the first square will be removed and become inaccessible. The data in the second square will remain intact. Because of this, best practice is to always perform operations on your least valuable pieces.
+
+If either square doesn't contain any data, a `NullPointerException` will be thrown. This has similar consequences to an `IntegerOverflowException`.
 
 #### Arithmetic operators
 
-If performing an arithmetic operation would result in an overflow, an exception is thrown. Since this response is analogous to a piece being thrown off the board, the data stored in the first square is removed and can no longer be accessed. The data in the second square remains intact. As such, best practice is to always perform operations on your least valuable pieces.
+If performing an arithmetic operation would result in an overflow, an exception is thrown.
 
 <!-- prettier-ignore -->
 | Operator | Action |
