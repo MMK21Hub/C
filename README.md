@@ -146,3 +146,11 @@ These are characters that cannot be used in names.
 
 - Any whitespace character
 - `.`
+
+## AI usage statement
+
+The code in this project has primarily been written by me, but I have used GitHub Copilot's inline completions and next edit suggestions.
+
+In the documentation, I have used inline completions very minimally.
+
+I have used ChatGPT for low-impact research, such as asking how other languages name their errors.
