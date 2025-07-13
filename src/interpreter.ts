@@ -139,13 +139,22 @@ export class Interpreter {
   ): void | CException {
     const firstOperand = this.getPieceFromRef(firstSquare)
     const secondOperand = this.getPieceFromRef(secondSquare)
+    // Validation
     if (firstOperand === null)
       throw new SevereNullPointerException(`${firstSquare} is null`)
     if (secondOperand === null)
       throw new NullPointerException(`${secondSquare} is null`)
+    // Perform the operation
+    const result = this.computeOperation(firstOperand, operator, secondOperand)
+    const [row, col] = this.squareToIndex(
+      asFile(firstSquare[0]),
+      asRank(firstSquare[1])
+    )
+    this.board[row][col] = result
   }
 
   private placePiece(piece: Piece, file: File, rank: Rank, capture = false) {
+    // Writing a piece to a specific square
     const [row, col] = this.squareToIndex(file, rank)
     if (this.board[row][col] !== null && !capture) {
       throw new PieceCollisionCrash(file, rank)
