@@ -1,6 +1,7 @@
 export class CException {
   name: string
   message?: string
+  isCrash: boolean = false
 
   constructor(name: string, message?: string) {
     this.name = name
@@ -42,6 +43,25 @@ export class MemoryAccessViolation extends CException {
 export class InvalidSquareRefException extends CException {
   constructor(message?: string) {
     super("InvalidSquareReferenceException", message)
+  }
+}
+
+export class InvalidPieceRepresentationException extends CException {
+  constructor(representation: string) {
+    super(
+      "InvalidPieceRepresentationException",
+      `Invalid piece representation: "${representation}". Pieces must be a single valid base-32 character.`
+    )
+  }
+}
+
+export class PieceCollisionCrash extends CException {
+  constructor(file: string, rank: number) {
+    super(
+      "PieceCollisionCrash",
+      `Square ${file}${rank} is already occupied by a piece.`
+    )
+    this.isCrash = true
   }
 }
 

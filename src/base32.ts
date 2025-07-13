@@ -19,6 +19,14 @@ export function encodeBase32(piece: Piece): Char {
   return encodingMap[piece]
 }
 
+export class InvalidBase32Exception extends Error {
+  constructor(char: Char) {
+    super(`Invalid base32 character: ${char}`)
+    this.name = "InvalidBase32Exception"
+  }
+}
+
 export function decodeBase32(char: Char): Piece {
+  if (!(char in decodingMap)) throw new InvalidBase32Exception(char)
   return asPiece(decodingMap[char])
 }

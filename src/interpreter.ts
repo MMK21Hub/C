@@ -1,4 +1,4 @@
-import { encodeBase32 } from "./base32.js"
+import { decodeBase32, encodeBase32, InvalidBase32Exception } from "./base32.js"
 import {
   MemoryAccessViolation,
   InternalErrorException,
@@ -6,6 +6,8 @@ import {
   SevereNullPointerException,
   NullPointerException,
   IntegerOverflowException,
+  InvalidPieceRepresentationException,
+  PieceCollisionCrash,
 } from "./exceptions.js"
 import {
   asFile,
@@ -80,17 +82,27 @@ export class Interpreter {
     // TODO: Implement the operations :)
   }
 
+  private placePiece(piece: Piece, file: File, rank: Rank, capture = false) {
+    const [row, col] = this.squareToIndex(file, rank)
+    if (this.board[row][col] !== null && !capture) {
+      throw new PieceCollisionCrash(file, rank)
+    }
+    this.board[row][col] = piece
+  }
+
   private executeInstruction(text: string): void | CException {
-    const firstChar = text[0]
-    const secondChar = text[1]
-    const firstCharType = characterType(firstChar)
-    const secondCharType = characterType(secondChar)
+    const firstCharType = characterType(text[0])
+    const secondCharType = characterType(text[1])
+    const thirdCharType = characterType(text[2])
 
     // If instruction starts with a square reference, it's an operation
     const isOperation =
       firstCharType === CharacterType.Lowercase &&
       secondCharType === CharacterType.Lowercase &&
       text.length > 4
+    const isPlaceInstruction =
+      secondCharType === CharacterType.Lowercase &&
+      thirdCharType === CharacterType.Number
     if (isOperation) {
       const firstSquare = text.slice(0, 2)
       const operator = text.slice(2, -2)
@@ -108,6 +120,23 @@ export class Interpreter {
           this.throwPieceOff(firstSquare) // Mistakes have consequences
         }
         return exception
+      }
+    }
+    if (isPlaceInstruction) {
+      const pieceString = text[0]
+      try {
+        const piece = decodeBase32(pieceString)
+        const file = asFile(text[1])
+        const rank = asRank(text[2])
+        try {
+          this.placePiece(piece, file, rank)
+        } catch (exception) {
+          if (exception instanceof CException) return exception
+          throw exception
+        }
+      } catch (error) {
+        if (!(error instanceof InvalidBase32Exception)) throw error
+        return new InvalidPieceRepresentationException(pieceString)
       }
     }
 
