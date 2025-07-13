@@ -16,19 +16,34 @@ import {
   Rank,
 } from "./types.js"
 
-export class Interpreter {
-  board: (Piece | null)[][] = Array.from({ length: 8 }, () =>
-    Array(8).fill(null)
-  )
+type Board = (Piece | null)[][]
 
-  squareToIndex(file: File, rank: Rank): [number, number] {
+export interface InterpreterConfig {
+  ranks?: number
+  files?: number
+}
+
+export class Interpreter {
+  private board: Board
+  private ranks: number
+  private files: number
+
+  constructor(config: InterpreterConfig = {}) {
+    this.ranks = config.ranks || 8
+    this.files = config.files || 8
+    this.board = Array.from({ length: this.ranks }, () =>
+      Array(this.files).fill(null)
+    )
+  }
+
+  private squareToIndex(file: File, rank: Rank): [number, number] {
     // The array, when printed, should look like a chessboard from White's point of view.
     const row = 8 - rank
     const col = file.charCodeAt(0) - "a".charCodeAt(0)
     return [row, col]
   }
 
-  getPiece(file: File, rank: Rank): Piece | null {
+  private getPiece(file: File, rank: Rank): Piece | null {
     const [row, col] = this.squareToIndex(file, rank)
     const piece = this.board.at(row)?.at(col)
     if (piece === undefined)
@@ -36,21 +51,21 @@ export class Interpreter {
     return piece
   }
 
-  getPieceFromRef(ref: string): Piece | null {
+  private getPieceFromRef(ref: string): Piece | null {
     if (ref.length !== 2)
       throw new InternalErrorException(`Invalid square ref length: ${ref}`)
     const [file, rank] = ref
     return this.getPiece(asFile(file), asRank(rank))
   }
 
-  throwPieceOff(ref: string) {
+  private throwPieceOff(ref: string) {
     const file = asFile(ref[0])
     const rank = asRank(ref[1])
     const [row, col] = this.squareToIndex(file, rank)
     this.board[row][col] = null
   }
 
-  performOperation(
+  private performOperation(
     firstSquare: string,
     operator: string,
     secondSquare: string
@@ -64,7 +79,7 @@ export class Interpreter {
     // TODO: Implement the operations :)
   }
 
-  executeInstruction(text: string): void | CException {
+  private executeInstruction(text: string): void | CException {
     const firstChar = text[0]
     const secondChar = text[1]
     const firstCharType = characterType(firstChar)
@@ -109,5 +124,28 @@ export class Interpreter {
         return // Stop executing the program
       }
     }
+  }
+
+  dumpBoard(): Board {
+    // Make a copy of the board object
+    return this.board.map((row) => row.slice())
+  }
+
+  boardToFormattedString(): string {
+    const lines: string[] = []
+    const innerWidth = this.files * 2 - 1
+    const topInnerPart = Array(this.files).fill("━━━").join("┳")
+    lines.push("┏" + topInnerPart + "┓")
+    this.board.forEach((row) => {
+      const innerPart = row
+        .map(
+          (piece) => " " + (piece ? piece.toString(32) : " ") + " " // TODO use proper base32
+        )
+        .join("┃")
+      lines.push("┃" + innerPart + "┃")
+    })
+    const bottomInnerPart = Array(this.files).fill("━━━").join("┻")
+    lines.push("┗" + bottomInnerPart + "┛")
+    return lines.join("\n")
   }
 }

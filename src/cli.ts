@@ -24,6 +24,7 @@ export async function run() {
   })
   const interpreter = new Interpreter()
   interpreter.run(fileData)
+  console.log(interpreter.boardToFormattedString())
 }
 
 if (process.argv[1] === import.meta.filename) {
