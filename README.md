@@ -167,12 +167,14 @@ The bitwise NOT operator is not available, but you can get a close approximation
 
 #### Boolean operations
 
+<!-- TODO: reflect these recent changes in the implementation-->
+
 Boolean operations are the only operations that can work with empty squares.
 
-| Operator | Action                                                                                  |
-| -------- | --------------------------------------------------------------------------------------- |
-| `&&`     | Results in a 0 if either operand is zero or an empty square. Otherwise, results in a 1. |
-| `\|\|`   | Results in a 0 if both operands are zero or empty squares. Otherwise, results in a 1.   |
+| Operator | Action                                                                                     |
+| -------- | ------------------------------------------------------------------------------------------ |
+| `&&`     | If the first operand is truthy, results in the second operand. Otherwise, results in a 0.  |
+| `\|\|`   | If the first operand is truthy, nothing changes. Otherwise, results in the second operand. |
 
 The boolean not (`!`) operator is not available - sorry about that. Try writing your non-existent if statements the other way around instead.
 
