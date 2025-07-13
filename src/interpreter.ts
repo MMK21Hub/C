@@ -16,7 +16,7 @@ import {
   Rank,
 } from "./types.js"
 
-class Interpreter {
+export class Interpreter {
   board: (Piece | null)[][] = Array.from({ length: 8 }, () =>
     Array(8).fill(null)
   )
