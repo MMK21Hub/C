@@ -2,6 +2,7 @@
 import { readFile } from "node:fs/promises"
 import { parseArgs, ParseArgsConfig } from "node:util"
 import { Interpreter } from "./interpreter.js"
+import { CException } from "./exceptions.js"
 
 const argsConfig: ParseArgsConfig = {
   allowPositionals: true,
@@ -23,8 +24,12 @@ export async function run() {
     process.exit(1)
   })
   const interpreter = new Interpreter()
-  interpreter.run(fileData)
+  const result = interpreter.run(fileData)
   console.log(interpreter.boardToFormattedString())
+  if (result instanceof CException) {
+    const number = result.instructionNumber || "<unknown>"
+    console.error(`Uncaught exception at instruction ${number}: ${result}`)
+  }
 }
 
 if (process.argv[1] === import.meta.filename) {

@@ -142,7 +142,7 @@ export class Interpreter {
     }
   }
 
-  run(code: string) {
+  run(code: string): void | CException {
     const instructions = code.split(/\s+/).filter(Boolean)
     if (instructions.length === 0) {
       console.warn("Warning: Empty program provided")
@@ -151,10 +151,8 @@ export class Interpreter {
     for (const [index, text] of instructions.entries()) {
       const result = this.executeInstruction(text)
       if (result !== undefined) {
-        console.error(
-          `Uncaught exception at instruction ${index + 1}: ${result}`
-        )
-        return // Stop executing the program
+        result.instructionNumber = index + 1
+        return result // Stop executing the program
       }
     }
   }

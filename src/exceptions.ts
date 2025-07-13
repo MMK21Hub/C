@@ -2,6 +2,7 @@ export class CException {
   name: string
   message?: string
   isCrash: boolean = false
+  instructionNumber?: number
 
   constructor(name: string, message?: string) {
     this.name = name
