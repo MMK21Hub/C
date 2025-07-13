@@ -1,3 +1,4 @@
+import { encodeBase32 } from "./base32.js"
 import {
   MemoryAccessViolation,
   InternalErrorException,
@@ -142,9 +143,7 @@ export class Interpreter {
     lines.push("┏" + topInnerPart + "┓")
     this.board.forEach((row) => {
       const innerPart = row
-        .map(
-          (piece) => " " + (piece ? piece.toString(32) : " ") + " " // TODO use proper base32
-        )
+        .map((piece) => " " + (piece ? encodeBase32(piece) : " ") + " ")
         .join("┃")
       lines.push("┃" + innerPart + "┃")
     })

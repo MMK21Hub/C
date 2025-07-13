@@ -3,6 +3,9 @@ import {
   InvalidSquareRefException,
 } from "./exceptions.js"
 
+// Ideally, I'd like a `Char` type based off of https://stackoverflow.com/a/77978645/11519302
+export type Char = string
+
 export type File =
   | "a"
   | "b"
