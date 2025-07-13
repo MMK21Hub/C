@@ -44,6 +44,12 @@ Fortunately, you only need to learn about one data type to code in C.
 
 C considers integers to be the best data type, and idiomatic C programs will reflect this ideal in their documentation. Naturally, C stores integers on the board as unsigned pieces, giving each integer a range of 0 to 31.
 
+#### Empty square
+
+When a C program is executed, all squares start as empty. This state is not truly a data type, but rather the lack of any data. It's different to a value of zero. You can think of it as `None` in Python, or perhaps `undefined` in JavaScript.
+
+Most operations will fail with a `NullPointerException` if you attempt to perform it on an empty square.
+
 ##### Booleans
 
 Boolean values are represented in C as integers. 0 is equivalent to `false`, and `1` is equivalent to `true`.
