@@ -132,11 +132,11 @@ Arithmetic operation instructions consist of 5 or more characters, depending on 
 
 If performing an operation would result in an integer overflow, an `IntegerOverflowException` will be thrown. Since this response is analogous to a piece being thrown off the board, the data stored in the first square will be removed and become inaccessible. The data in the second square will remain intact. Because of this, best practice is to always perform operations on your least valuable pieces.
 
-If either square doesn't contain any data, a `NullPointerException` will be thrown. This has similar consequences to an `IntegerOverflowException`.
+Most operations (apart from [boolean operations](#boolean-operations)) will throw a `NullPointerException` if used with an empty square. This will have similar consequences to an `IntegerOverflowException`, in the sense that the piece (if it exists) in the first square will be thrown off the board. Be careful.
 
 #### Arithmetic operators
 
-If performing an arithmetic operation would result in an overflow, an exception is thrown.
+If either square doesn't contain any data, a `NullPointerException` will be thrown, throwing the first piece off the board.
 
 <!-- prettier-ignore -->
 | Operator | Action |
@@ -153,6 +153,8 @@ If performing an arithmetic operation would result in an overflow, an exception 
 
 #### Bitwise operations
 
+If either square doesn't contain any data, a `NullPointerException` will be thrown, throwing the first piece off the board.
+
 | Operator | Action                                                       |
 | -------- | ------------------------------------------------------------ |
 | `&`      | Bitwise AND.                                                 |
@@ -165,29 +167,42 @@ The bitwise NOT operator is not available, but you can get a close approximation
 
 #### Boolean operations
 
-| Operator | Action                                                                                     |
-| -------- | ------------------------------------------------------------------------------------------ |
-| `&&`     | Results in a `1` if both operands are non-zero. Otherwise, results in a `0`.               |
-| `\|\|`   | Results in a `1` if at least one of the operands is non-zero. Otherwise, results in a `0`. |
+Boolean operations are the only operations that can work with empty squares.
 
-The boolean not (`!`) operator is not available - sorry about that. Try writing your if statements the other way around instead.
+| Operator | Action                                                                                  |
+| -------- | --------------------------------------------------------------------------------------- |
+| `&&`     | Results in a 0 if either operand is zero or an empty square. Otherwise, results in a 1. |
+| `\|\|`   | Results in a 0 if both operands are zero or empty squares. Otherwise, results in a 1.   |
 
-#### Comparative operations
+The boolean not (`!`) operator is not available - sorry about that. Try writing your non-existent if statements the other way around instead.
+
+#### Equality checks
+
+If either square doesn't contain any data, a `NullPointerException` will be thrown, throwing the first piece off the board.
+
+| Operator | Action                                                                           |
+| -------- | -------------------------------------------------------------------------------- |
+| `==`     | Results in a `1` if the two operands are equal. Otherwise, results in a `0`.     |
+| `!=`     | Results in a `1` if the two operands are not equal. Otherwise, results in a `0`. |
+
+Both equality check operations are "strict" in the JavaScript sense. Imprecise equality checks are not required because all values are integers.
+
+You cannot check equality between a piece and an empty square, or two empty squares. To check if a square is empty, try using a [boolean operation](#boolean-operations) with a known-empty square.
+
+#### Comparison operators
+
+If either square doesn't contain any data, a `NullPointerException` will be thrown, throwing the first piece off the board.
 
 I think by now you're getting the gist of how these tables work.
 
 | Operator | Action                                                                                                             |
 | -------- | ------------------------------------------------------------------------------------------------------------------ |
-| `==`     | Results in a `1` if the two operands are equal. Otherwise, results in a `0`.                                       |
-| `!=`     | Results in a `1` if the two operands are not equal. Otherwise, results in a `0`.                                   |
 | `<`      | Results in a `1` if the first operand is less than the second operand. Otherwise, results in a `0`.                |
 | `<=`     | Results in a `1` if the first operand is less than or equal to the second operand. Otherwise, results in a `0`.    |
 | `>`      | Results in a `1` if the first operand is greater than the second operand. Otherwise, results in a `0`.             |
 | `>=`     | Results in a `1` if the first operand is greater than or equal to the second operand. Otherwise, results in a `0`. |
 
-All comparative operators are "strict" in the JavaScript sense. Imprecise equality checks are not required because all values are integers.
-
-There is no `<>` operator. Use `!=` and stop pretending to be writing XML.
+There is no `<>` operator. Use `!=` and stop pretending to be writing XML or whatever.
 
 #### Operation examples
 
