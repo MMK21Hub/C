@@ -121,8 +121,7 @@ export class Interpreter {
         }
         return exception
       }
-    }
-    if (isPlaceInstruction) {
+    } else if (isPlaceInstruction) {
       const pieceString = text[0]
       try {
         const piece = decodeBase32(pieceString)
@@ -138,9 +137,9 @@ export class Interpreter {
         if (!(error instanceof InvalidBase32Exception)) throw error
         return new InvalidPieceRepresentationException(pieceString)
       }
+    } else {
+      return new InternalErrorException(`Unrecognized instruction: ${text}`)
     }
-
-    return new InternalErrorException(`Unrecognized instruction: ${text}`)
   }
 
   run(code: string) {
@@ -172,7 +171,9 @@ export class Interpreter {
     lines.push("┏" + topInnerPart + "┓")
     this.board.forEach((row) => {
       const innerPart = row
-        .map((piece) => " " + (piece ? encodeBase32(piece) : " ") + " ")
+        .map(
+          (piece) => " " + (piece !== null ? encodeBase32(piece) : " ") + " "
+        )
         .join("┃")
       lines.push("┃" + innerPart + "┃")
     })
