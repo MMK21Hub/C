@@ -167,12 +167,20 @@ class Interpreter {
         return exception
       }
     }
+
+    return new InternalErrorException(`Unrecognized instruction: ${text}`)
   }
 
   run(code: string) {
     const instructions = code.split(/\s+/)
-    instructions.forEach((text) => {
+    for (const [index, text] of instructions.entries()) {
       const result = this.executeInstruction(text)
-    })
+      if (result !== undefined) {
+        console.error(
+          `Uncaught exception at instruction ${index + 1}: ${result}`
+        )
+        return // Stop executing the program
+      }
+    }
   }
 }
