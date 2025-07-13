@@ -125,13 +125,29 @@ The bitwise NOT operator is not available, but you can get a close approximation
 
 #### Boolean operations
 
-<!-- prettier-ignore -->
-| Operator | Action |
-| -------- | ------ |
-| `&&` | Results in a `1` if both operands are non-zero. Otherwise, results in a `0`. |
-| `\|\|` | Results in a `1` if at least one of the operands is non-zero. Otherwise, results in a `0`. |
+| Operator | Action                                                                                     |
+| -------- | ------------------------------------------------------------------------------------------ |
+| `&&`     | Results in a `1` if both operands are non-zero. Otherwise, results in a `0`.               |
+| `\|\|`   | Results in a `1` if at least one of the operands is non-zero. Otherwise, results in a `0`. |
 
 The boolean not (`!`) operator is not available - sorry about that. Try writing your if statements the other way around instead.
+
+#### Comparative operations
+
+I think by now you're getting the gist of how these tables work.
+
+| Operator | Action                                                                                                             |
+| -------- | ------------------------------------------------------------------------------------------------------------------ |
+| `==`     | Results in a `1` if the two operands are equal. Otherwise, results in a `0`.                                       |
+| `!=`     | Results in a `1` if the two operands are not equal. Otherwise, results in a `0`.                                   |
+| `<`      | Results in a `1` if the first operand is less than the second operand. Otherwise, results in a `0`.                |
+| `<=`     | Results in a `1` if the first operand is less than or equal to the second operand. Otherwise, results in a `0`.    |
+| `>`      | Results in a `1` if the first operand is greater than the second operand. Otherwise, results in a `0`.             |
+| `>=`     | Results in a `1` if the first operand is greater than or equal to the second operand. Otherwise, results in a `0`. |
+
+All comparative operators are "strict" in the JavaScript sense. Imprecise equality checks are not required because all values are integers.
+
+There is no `<>` operator. Use `!=` and stop pretending to be writing XML.
 
 #### Operation examples
 

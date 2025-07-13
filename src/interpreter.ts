@@ -114,6 +114,19 @@ export class Interpreter {
         return asPiece(firstOperand && secondOperand ? 1 : 0)
       case "||":
         return asPiece(firstOperand || secondOperand ? 1 : 0)
+      // Comparative operations
+      case "==":
+        return asPiece(firstOperand === secondOperand ? 1 : 0)
+      case "!=":
+        return asPiece(firstOperand !== secondOperand ? 1 : 0)
+      case "<":
+        return asPiece(firstOperand < secondOperand ? 1 : 0)
+      case "<=":
+        return asPiece(firstOperand <= secondOperand ? 1 : 0)
+      case ">":
+        return asPiece(firstOperand > secondOperand ? 1 : 0)
+      case ">=":
+        return asPiece(firstOperand >= secondOperand ? 1 : 0)
       default:
         throw new InvalidOperatorException(operator)
     }
