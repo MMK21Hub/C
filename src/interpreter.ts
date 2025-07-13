@@ -36,39 +36,39 @@ const Operators: {
   }
 } = {
   Arithmetic: {
-    "+": (a: Piece, b: Piece) => asPiece(a + b),
-    "-": (a: Piece, b: Piece) => asPiece(a - b),
-    "*": (a: Piece, b: Piece) => asPiece(a * b),
-    "/": (a: Piece, b: Piece) => {
+    "+": (a, b) => asPiece(a + b),
+    "-": (a, b) => asPiece(a - b),
+    "*": (a, b) => asPiece(a * b),
+    "/": (a, b) => {
       if (b === 0) throw new DivisionByZeroException()
       return asPiece(Math.floor(a / b))
     },
-    "%": (a: Piece, b: Piece) => asPiece(a % b),
-    "**": (a: Piece, b: Piece) => asPiece(a ** b),
-    "***": (a: Piece, b: Piece) => tetrate(a, b),
-    log: (a: Piece, b: Piece) => asPiece(logarithm(a, b)),
-    throot: (a: Piece, b: Piece) => asPiece(b ** (1 / a)),
+    "%": (a, b) => asPiece(a % b),
+    "**": (a, b) => asPiece(a ** b),
+    "***": (a, b) => tetrate(a, b),
+    log: (a, b) => asPiece(logarithm(a, b)),
+    throot: (a, b) => asPiece(b ** (1 / a)),
   },
   Bitwise: {
-    "&": (a: Piece, b: Piece) => asPiece(a & b),
-    "|": (a: Piece, b: Piece) => asPiece(a | b),
-    "^": (a: Piece, b: Piece) => asPiece(a ^ b),
-    "<<": (a: Piece, b: Piece) => asPiece(a << b),
-    ">>": (a: Piece, b: Piece) => asPiece(a >> b),
+    "&": (a, b) => asPiece(a & b),
+    "|": (a, b) => asPiece(a | b),
+    "^": (a, b) => asPiece(a ^ b),
+    "<<": (a, b) => asPiece(a << b),
+    ">>": (a, b) => asPiece(a >> b),
   },
   Boolean: {
-    "&&": (a: Piece, b: Piece) => asPiece(a ? b : 0),
-    "||": (a: Piece, b: Piece) => asPiece(a || b),
+    "&&": (a, b) => asPiece(a ? b : 0),
+    "||": (a, b) => asPiece(a || b),
   },
   Equality: {
-    "==": (a: Piece, b: Piece) => asPiece(a === b ? 1 : 0),
-    "!=": (a: Piece, b: Piece) => asPiece(a !== b ? 1 : 0),
+    "==": (a, b) => asPiece(a === b ? 1 : 0),
+    "!=": (a, b) => asPiece(a !== b ? 1 : 0),
   },
   Comparison: {
-    "<": (a: Piece, b: Piece) => asPiece(a < b ? 1 : 0),
-    "<=": (a: Piece, b: Piece) => asPiece(a <= b ? 1 : 0),
-    ">": (a: Piece, b: Piece) => asPiece(a > b ? 1 : 0),
-    ">=": (a: Piece, b: Piece) => asPiece(a >= b ? 1 : 0),
+    "<": (a, b) => asPiece(a < b ? 1 : 0),
+    "<=": (a, b) => asPiece(a <= b ? 1 : 0),
+    ">": (a, b) => asPiece(a > b ? 1 : 0),
+    ">=": (a, b) => asPiece(a >= b ? 1 : 0),
   },
 }
 
