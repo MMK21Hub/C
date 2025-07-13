@@ -48,6 +48,8 @@ C considers integers to be the best data type, and idiomatic C programs will ref
 
 When a C program is executed, all squares start as empty. This state is not truly a data type, but rather the lack of any data. It's different to a value of zero. You can think of it as `None` in Python, or perhaps `undefined` in JavaScript.
 
+Once a square has had a piece placed on it, it can't become empty again (unless the piece is thrown off due to an exception being thrown).
+
 Most operations will fail with a `NullPointerException` if you attempt to perform it on an empty square.
 
 ##### Booleans
@@ -210,6 +212,10 @@ There is no `<>` operator. Use `!=` and stop pretending to be writing XML or wha
 
 - `e4+f5` would add the values in the squares `e4` and `f5`, and write the result to `e4`, overwriting the previous contents of `e4`.
 - `Ba1 a1logb1` would take the base-2 logarithm of the value in `b1`, writing the result to `a1`.
+
+### Garbage collection
+
+C has garbage collection. Any pieces that get thrown off the board will be re-thrown into a black sack and left by the kerbside. Implementations must perform garbage collection at least once weekly, except during Christmas.
 
 ### Reference
 
