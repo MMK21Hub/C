@@ -1,3 +1,13 @@
 {
-  "cSpell.words": ["hyperoperation", "tetrated", "throot"]
+  "cSpell.words": [
+    "hyperoperation",
+    "tetrated",
+    "throot"
+  ],
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

@@ -4,7 +4,7 @@
     "target": "esnext",
     "module": "node18",
     "lib": ["ES2024", "DOM"],
-    "moduleResolution": "node16",
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
     "skipLibCheck": true
   }
