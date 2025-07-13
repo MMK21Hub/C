@@ -114,7 +114,11 @@ export class Interpreter {
   }
 
   run(code: string) {
-    const instructions = code.split(/\s+/)
+    const instructions = code.split(/\s+/).filter(Boolean)
+    if (instructions.length === 0) {
+      console.warn("Warning: Empty program provided")
+      return
+    }
     for (const [index, text] of instructions.entries()) {
       const result = this.executeInstruction(text)
       if (result !== undefined) {
