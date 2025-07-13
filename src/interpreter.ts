@@ -8,9 +8,13 @@ import {
   IntegerOverflowException,
   InvalidPieceRepresentationException,
   PieceCollisionCrash,
+  InvalidOperatorException,
+  DivisionByZeroException,
 } from "./exceptions.js"
+import { logarithm, tetrate } from "./math.js"
 import {
   asFile,
+  asPiece,
   asRank,
   characterType,
   CharacterType,
@@ -68,6 +72,53 @@ export class Interpreter {
     this.board[row][col] = null
   }
 
+  private computeOperation(
+    firstOperand: Piece,
+    operator: string,
+    secondOperand: Piece
+  ): Piece {
+    switch (operator) {
+      // Arithmetic operations
+      case "+":
+        return asPiece(firstOperand + secondOperand)
+      case "-":
+        return asPiece(firstOperand - secondOperand)
+      case "*":
+        return asPiece(firstOperand * secondOperand)
+      case "/":
+        if (secondOperand === 0) throw new DivisionByZeroException()
+        return asPiece(Math.floor(firstOperand / secondOperand))
+      case "%":
+        return asPiece(firstOperand % secondOperand)
+      case "**":
+        return asPiece(firstOperand ** secondOperand)
+      case "***":
+        return tetrate(firstOperand, secondOperand)
+      case "log":
+        return asPiece(logarithm(firstOperand, secondOperand))
+      case "throot":
+        return asPiece(firstOperand ** (1 / secondOperand))
+      // Bitwise operations
+      case "&":
+        return asPiece(firstOperand & secondOperand)
+      case "|":
+        return asPiece(firstOperand | secondOperand)
+      case "^":
+        return asPiece(firstOperand ^ secondOperand)
+      case "<<":
+        return asPiece(firstOperand << secondOperand)
+      case ">>":
+        return asPiece(firstOperand >> secondOperand)
+      // Boolean operations
+      case "&&":
+        return asPiece(firstOperand && secondOperand ? 1 : 0)
+      case "||":
+        return asPiece(firstOperand || secondOperand ? 1 : 0)
+      default:
+        throw new InvalidOperatorException(operator)
+    }
+  }
+
   private performOperation(
     firstSquare: string,
     operator: string,
@@ -79,7 +130,6 @@ export class Interpreter {
       throw new SevereNullPointerException(`${firstSquare} is null`)
     if (secondOperand === null)
       throw new NullPointerException(`${secondSquare} is null`)
-    // TODO: Implement the operations :)
   }
 
   private placePiece(piece: Piece, file: File, rank: Rank, capture = false) {

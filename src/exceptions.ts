@@ -20,6 +20,12 @@ export class IntegerOverflowException extends CException {
   }
 }
 
+export class DivisionByZeroException extends CException {
+  constructor() {
+    super("DivisionByZeroException", "Cannot divide by zero")
+  }
+}
+
 export class NullPointerException extends CException {
   constructor(message?: string) {
     super("NullPointerException", message)
@@ -41,18 +47,30 @@ export class MemoryAccessViolation extends CException {
   }
 }
 
-export class InvalidSquareRefException extends CException {
+export class CSyntaxError extends CException {
+  constructor(name: string, message?: string) {
+    super(name, `Syntax error: ${message || "Invalid syntax"}`)
+  }
+}
+
+export class InvalidSquareRefException extends CSyntaxError {
   constructor(message?: string) {
     super("InvalidSquareReferenceException", message)
   }
 }
 
-export class InvalidPieceRepresentationException extends CException {
+export class InvalidPieceRepresentationException extends CSyntaxError {
   constructor(representation: string) {
     super(
       "InvalidPieceRepresentationException",
       `Invalid piece representation: "${representation}". Pieces must be a single valid base-32 character.`
     )
+  }
+}
+
+export class InvalidOperatorException extends CSyntaxError {
+  constructor(operator: string) {
+    super("InvalidOperatorException", `Not a valid operator: "${operator}".`)
   }
 }
 
