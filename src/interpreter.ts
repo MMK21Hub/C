@@ -30,6 +30,48 @@ export interface InterpreterConfig {
   files?: number
 }
 
+const Operators: {
+  [category: string]: {
+    [operator: string]: (a: Piece, b: Piece) => Piece
+  }
+} = {
+  Arithmetic: {
+    "+": (a: Piece, b: Piece) => asPiece(a + b),
+    "-": (a: Piece, b: Piece) => asPiece(a - b),
+    "*": (a: Piece, b: Piece) => asPiece(a * b),
+    "/": (a: Piece, b: Piece) => {
+      if (b === 0) throw new DivisionByZeroException()
+      return asPiece(Math.floor(a / b))
+    },
+    "%": (a: Piece, b: Piece) => asPiece(a % b),
+    "**": (a: Piece, b: Piece) => asPiece(a ** b),
+    "***": (a: Piece, b: Piece) => tetrate(a, b),
+    log: (a: Piece, b: Piece) => asPiece(logarithm(a, b)),
+    throot: (a: Piece, b: Piece) => asPiece(b ** (1 / a)),
+  },
+  Bitwise: {
+    "&": (a: Piece, b: Piece) => asPiece(a & b),
+    "|": (a: Piece, b: Piece) => asPiece(a | b),
+    "^": (a: Piece, b: Piece) => asPiece(a ^ b),
+    "<<": (a: Piece, b: Piece) => asPiece(a << b),
+    ">>": (a: Piece, b: Piece) => asPiece(a >> b),
+  },
+  Boolean: {
+    "&&": (a: Piece, b: Piece) => asPiece(a ? b : 0),
+    "||": (a: Piece, b: Piece) => asPiece(a || b),
+  },
+  Equality: {
+    "==": (a: Piece, b: Piece) => asPiece(a === b ? 1 : 0),
+    "!=": (a: Piece, b: Piece) => asPiece(a !== b ? 1 : 0),
+  },
+  Comparison: {
+    "<": (a: Piece, b: Piece) => asPiece(a < b ? 1 : 0),
+    "<=": (a: Piece, b: Piece) => asPiece(a <= b ? 1 : 0),
+    ">": (a: Piece, b: Piece) => asPiece(a > b ? 1 : 0),
+    ">=": (a: Piece, b: Piece) => asPiece(a >= b ? 1 : 0),
+  },
+}
+
 export class Interpreter {
   private board: Board
   private ranks: number
@@ -73,63 +115,28 @@ export class Interpreter {
   }
 
   private computeOperation(
-    firstOperand: Piece,
+    firstOperand: Piece | null,
     operator: string,
-    secondOperand: Piece
+    secondOperand: Piece | null
   ): Piece {
-    switch (operator) {
-      // Arithmetic operations
-      case "+":
-        return asPiece(firstOperand + secondOperand)
-      case "-":
-        return asPiece(firstOperand - secondOperand)
-      case "*":
-        return asPiece(firstOperand * secondOperand)
-      case "/":
-        if (secondOperand === 0) throw new DivisionByZeroException()
-        return asPiece(Math.floor(firstOperand / secondOperand))
-      case "%":
-        return asPiece(firstOperand % secondOperand)
-      case "**":
-        return asPiece(firstOperand ** secondOperand)
-      case "***":
-        return tetrate(firstOperand, secondOperand)
-      case "log":
-        return asPiece(logarithm(firstOperand, secondOperand))
-      case "throot":
-        return asPiece(firstOperand ** (1 / secondOperand))
-      // Bitwise operations
-      case "&":
-        return asPiece(firstOperand & secondOperand)
-      case "|":
-        return asPiece(firstOperand | secondOperand)
-      case "^":
-        return asPiece(firstOperand ^ secondOperand)
-      case "<<":
-        return asPiece(firstOperand << secondOperand)
-      case ">>":
-        return asPiece(firstOperand >> secondOperand)
-      // Boolean operations
-      case "&&":
-        return asPiece(firstOperand && secondOperand ? 1 : 0)
-      case "||":
-        return asPiece(firstOperand || secondOperand ? 1 : 0)
-      // Comparative operations
-      case "==":
-        return asPiece(firstOperand === secondOperand ? 1 : 0)
-      case "!=":
-        return asPiece(firstOperand !== secondOperand ? 1 : 0)
-      case "<":
-        return asPiece(firstOperand < secondOperand ? 1 : 0)
-      case "<=":
-        return asPiece(firstOperand <= secondOperand ? 1 : 0)
-      case ">":
-        return asPiece(firstOperand > secondOperand ? 1 : 0)
-      case ">=":
-        return asPiece(firstOperand >= secondOperand ? 1 : 0)
-      default:
-        throw new InvalidOperatorException(operator)
+    for (const category in Operators) {
+      const operations = Operators[category as keyof typeof Operators]
+      // Check if the operator is in this category
+      if (!(operator in operations)) continue
+      // Boolean operations allow empty squares. We normalise them to zero values.
+      if (operations === Operators.Boolean) {
+        if (firstOperand === null) firstOperand = asPiece(0)
+        if (secondOperand === null) secondOperand = asPiece(0)
+      }
+      // Validation
+      if (firstOperand === null)
+        throw new SevereNullPointerException(`${firstOperand} is null`)
+      if (secondOperand === null)
+        throw new NullPointerException(`${secondOperand} is null`)
+      // Perform the operation
+      return operations[operator](firstOperand, secondOperand)
     }
+    throw new InvalidOperatorException(operator)
   }
 
   private performOperation(
@@ -137,15 +144,11 @@ export class Interpreter {
     operator: string,
     secondSquare: string
   ): void | CException {
+    // Compute the operation
     const firstOperand = this.getPieceFromRef(firstSquare)
     const secondOperand = this.getPieceFromRef(secondSquare)
-    // Validation
-    if (firstOperand === null)
-      throw new SevereNullPointerException(`${firstSquare} is null`)
-    if (secondOperand === null)
-      throw new NullPointerException(`${secondSquare} is null`)
-    // Perform the operation
     const result = this.computeOperation(firstOperand, operator, secondOperand)
+    // Write the result to the first square
     const [row, col] = this.squareToIndex(
       asFile(firstSquare[0]),
       asRank(firstSquare[1])
