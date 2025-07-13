@@ -28,6 +28,40 @@ The following table, copied [from Wikipedia](https://en.wikipedia.org/wiki/Base3
 
 Throughout this document, values will often be written in RFC 4648 base-32. This will be indicated by a subscript 32, e.g. F<sub>32</sub> to represent the value 5.
 
+In case you're wondering how pieces relate to other units of data such as bytes, here's a "helpful" bulleted list:
+
+- 1 bit = **1** bit
+- 1 nibble = **4** bits
+- 1 piece = **5** bits
+- 1 byte = **8** bits
+- In Windows terminology, 1 WORD = **16** bits
+
+#### Data types
+
+Fortunately, you only need to learn about one data type to code in C.
+
+##### Integers
+
+C considers integers to be the best data type, and idiomatic C programs will reflect this ideal in their documentation. Naturally, C stores integers on the board as unsigned pieces, giving each integer a range of 0 to 31.
+
+##### Booleans
+
+Boolean values are represented in C as integers. 0 is equivalent to `false`, and `1` is equivalent to `true`.
+
+For the purposes of [boolean operations](#boolean-operations), the value 0 is considered falsy and any other value is considered truthy.
+
+##### Floating-point numbers
+
+C does not support floating-point numbers. Instead, you should use the superior integer data type.
+
+##### Characters and strings
+
+Characters and strings are not supported yet.
+
+Strings carry a variety of complications, including localization, normalization, and delocalisation. It is suggested to use integers for input and output instead.
+
+Characters may be defined as a data type in a future version of C. They will likely be stored as two pieces per character, using the UTF-10 Unicode encoding that will be specific to C.
+
 ### Referencing board squares
 
 Board squares (equivalent to memory locations) are referenced using coordinates in the same way as algebraic chess notation. Two characters are used:

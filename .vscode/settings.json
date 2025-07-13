@@ -1,5 +1,11 @@
 {
-  "cSpell.words": ["boarddump", "hyperoperation", "tetrated", "throot"],
+  "cSpell.words": [
+    "boarddump",
+    "delocalisation",
+    "hyperoperation",
+    "tetrated",
+    "throot"
+  ],
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
