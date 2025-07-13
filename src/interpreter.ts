@@ -5,7 +5,7 @@ import {
   SevereNullPointerException,
   NullPointerException,
   IntegerOverflowException,
-} from "./exceptions"
+} from "./exceptions.js"
 import {
   asFile,
   asRank,
@@ -14,7 +14,7 @@ import {
   File,
   Piece,
   Rank,
-} from "./types"
+} from "./types.js"
 
 class Interpreter {
   board: (Piece | null)[][] = Array.from({ length: 8 }, () =>

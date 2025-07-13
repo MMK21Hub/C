@@ -1,7 +1,7 @@
 import {
   IntegerOverflowException,
   InvalidSquareRefException,
-} from "./exceptions"
+} from "./exceptions.js"
 
 export type File =
   | "a"
