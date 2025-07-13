@@ -94,6 +94,7 @@ export class Interpreter {
     const firstCharType = characterType(text[0])
     const secondCharType = characterType(text[1])
     const thirdCharType = characterType(text[2])
+    const fourthCharType = characterType(text[3])
 
     // If instruction starts with a square reference, it's an operation
     const isOperation =
@@ -103,6 +104,10 @@ export class Interpreter {
     const isPlaceInstruction =
       secondCharType === CharacterType.Lowercase &&
       thirdCharType === CharacterType.Number
+    const isCaptureInstruction =
+      text[1] === "x" &&
+      thirdCharType === CharacterType.Lowercase &&
+      fourthCharType === CharacterType.Number
     if (isOperation) {
       const firstSquare = text.slice(0, 2)
       const operator = text.slice(2, -2)
@@ -121,14 +126,14 @@ export class Interpreter {
         }
         return exception
       }
-    } else if (isPlaceInstruction) {
+    } else if (isPlaceInstruction || isCaptureInstruction) {
       const pieceString = text[0]
       try {
         const piece = decodeBase32(pieceString)
-        const file = asFile(text[1])
-        const rank = asRank(text[2])
+        const file = asFile(isCaptureInstruction ? text[2] : text[1])
+        const rank = asRank(isCaptureInstruction ? text[3] : text[2])
         try {
-          this.placePiece(piece, file, rank)
+          this.placePiece(piece, file, rank, isCaptureInstruction)
         } catch (exception) {
           if (exception instanceof CException) return exception
           throw exception
