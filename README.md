@@ -211,6 +211,30 @@ There is no `<>` operator. Use `!=` and stop pretending to be writing XML or wha
 - `e4+f5` would add the values in the squares `e4` and `f5`, and write the result to `e4`, overwriting the previous contents of `e4`.
 - `Ba1 a1logb1` would take the base-2 logarithm of the value in `b1`, writing the result to `a1`.
 
+### Functions
+
+Functions are identified by a 5-bit identifier (for the purpose of defining the function) which maps to a square on an imaginary 8x4 board (with square references `a1` to `h4`). The function's square reference is used when calling it.
+
+Functions can currently only one operation. They're most useful when you need to perform an operation on the same two squares multiple times in a program.
+
+Note that functions are not variables, and cannot be treated as such. They do not exist on the board &ndash; do not be fooled into holding them to a higher regard than necessary. Also note that a function can have the same identifier as a variable &ndash; this is allowed (and even recommended) because they will not interact.
+
+#### Defining functions
+
+A function definition instruction consists of a function identifier, a dot, and then an operation instruction. This means it is 7 or more characters long. A detailed description of the syntax is as follows:
+
+1. The first character is the function identifier, which is a single base-32 digit (`A` to `7`)
+2. The second character is a dot (`.`)
+3. The following instructions must be a valid [operation instruction](#operations) (usually 5 or 6 characters, sometimes more).
+
+It is recommended to start off by using the identifiers from `2` to `7` for your functions. This makes the source code look closer to algebraic chess notation, which is one of the goals for idiomatic C.
+
+#### Calling functions
+
+![A diagram showing how board square coordinates map to function identifiers](./function-id-mappings.svg)
+
+TODO write spec
+
 ### Garbage collection
 
 C has garbage collection. Any pieces that get thrown off the board will be re-thrown into a black sack and left by the kerbside. Implementations must perform garbage collection at least once weekly, except during Christmas.
