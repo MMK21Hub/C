@@ -219,6 +219,8 @@ Functions can currently only one operation. They're most useful when you need to
 
 Note that functions are not variables, and cannot be treated as such. They do not exist on the board &ndash; do not be fooled into holding them to a higher regard than necessary. Also note that a function can have the same identifier as a variable &ndash; this is allowed (and even recommended) because they will not interact.
 
+You cannot have two functions with the same identifier. Defining a function with an identifier that is already in use will overwrite the old function. Be careful not to do this accidentally.
+
 #### Defining functions
 
 A function definition instruction consists of a function identifier, a dot, and then an operation instruction. This means it is 7 or more characters long. A detailed description of the syntax is as follows:
@@ -231,9 +233,26 @@ It is recommended to start off by using the identifiers from `2` to `7` for your
 
 #### Calling functions
 
+A function call instruction simply consists of the function's square reference (of the square on the imaginary board that the function sits on) and nothing else. If you're used to algebraic chess notation, it looks like a pawn move. Here's the spec:
+
+1. The first character specifies the file of the function's (imaginary) square, `a` to `h`.
+2. The second character specifies the rank of the function's (imaginary) square, `1` to `4`.
+
+The diagram below shows how the function identifiers (the characters on the squares) can also be represented by a file and rank reference. For example, function `2` would be represented by the square `c1`.
+
 ![A diagram showing how board square coordinates map to function identifiers](./function-id-mappings.svg)
 
-TODO write spec
+#### Function example
+
+This program sets up two squares (`a1` and `a2`) with a value of B<sub>32</sub> (i.e. 1), defines the function `A` (A for add) to add the value of `a2` onto `a1`, and then calls the function twice.
+
+```c
+Ba1
+Ba2
+A.a1+a2
+a4
+a4
+```
 
 ### Garbage collection
 
