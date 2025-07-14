@@ -169,8 +169,6 @@ The bitwise NOT operator is not available, but you can get a close approximation
 
 #### Boolean operations
 
-<!-- TODO: reflect these recent changes in the implementation-->
-
 Boolean operations are the only operations that can work with empty squares.
 
 | Operator | Action                                                                                                                    |

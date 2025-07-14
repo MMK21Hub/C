@@ -1,5 +1,4 @@
-Aa1
-Bb1
-Cc1
-2xc1
+Ba1
+Cb1
+b1+a1
 Ba2
