@@ -10,6 +10,7 @@ import {
   PieceCollisionCrash,
   InvalidOperatorException,
   DivisionByZeroException,
+  CSyntaxError,
 } from "./exceptions.js"
 import { logarithm, tetrate } from "./math.js"
 import {
@@ -76,6 +77,7 @@ export class Interpreter {
   private board: Board
   private ranks: number
   private files: number
+  private functions: Map<Piece, string>
 
   constructor(config: InterpreterConfig = {}) {
     this.ranks = config.ranks || 8
@@ -83,6 +85,7 @@ export class Interpreter {
     this.board = Array.from({ length: this.ranks }, () =>
       Array(this.files).fill(null)
     )
+    this.functions = new Map<Piece, string>()
   }
 
   private squareToIndex(file: File, rank: Rank): [number, number] {
@@ -165,28 +168,47 @@ export class Interpreter {
     this.board[row][col] = piece
   }
 
-  private executeInstruction(text: string): void | CException {
-    const firstCharType = characterType(text[0])
-    const secondCharType = characterType(text[1])
-    const thirdCharType = characterType(text[2])
-    const fourthCharType = characterType(text[3])
+  private executeInstruction(fullInstruction: string): void | CException {
+    // Work out if it looks like any variables/functions are being declared first
+    const dotParts = fullInstruction.split(".")
+    if (dotParts.length > 2)
+      return new CSyntaxError(
+        "TooManyDotsException",
+        `Too many dots in instruction: ${fullInstruction}`
+      )
+    const label = dotParts.length === 2 ? dotParts[0] : null
+    const body = dotParts.length === 2 ? dotParts[1] : dotParts[0]
+    // Then we examine the body to work out what instruction type it is
+    const firstCharType = characterType(body[0])
+    const secondCharType = characterType(body[1])
+    const thirdCharType = characterType(body[2])
+    const fourthCharType = characterType(body[3])
 
     // If instruction starts with a square reference, it's an operation
     const isOperation =
       firstCharType === CharacterType.Lowercase &&
       secondCharType === CharacterType.Number &&
-      text.length > 4
+      body.length > 4
     const isPlaceInstruction =
       secondCharType === CharacterType.Lowercase &&
       thirdCharType === CharacterType.Number
     const isCaptureInstruction =
-      text[1] === "x" &&
+      body[1] === "x" &&
       thirdCharType === CharacterType.Lowercase &&
       fourthCharType === CharacterType.Number
-    if (isOperation) {
-      const firstSquare = text.slice(0, 2)
-      const operator = text.slice(2, -2)
-      const secondSquare = text.slice(-2)
+    if (isOperation && label) {
+      // Function definition instruction
+      try {
+        const functionId = decodeBase32(label)
+        this.functions.set(functionId, body)
+      } catch (error) {
+        if (!(error instanceof CException)) throw error
+        return error
+      }
+    } else if (isOperation) {
+      const firstSquare = body.slice(0, 2)
+      const operator = body.slice(2, -2)
+      const secondSquare = body.slice(-2)
       // const result = this.performOperation(firstSquare, operator, secondSquare)
       try {
         this.performOperation(firstSquare, operator, secondSquare)
@@ -202,11 +224,11 @@ export class Interpreter {
         return exception
       }
     } else if (isPlaceInstruction || isCaptureInstruction) {
-      const pieceString = text[0]
+      const pieceString = body[0]
       try {
         const piece = decodeBase32(pieceString)
-        const file = asFile(isCaptureInstruction ? text[2] : text[1])
-        const rank = asRank(isCaptureInstruction ? text[3] : text[2])
+        const file = asFile(isCaptureInstruction ? body[2] : body[1])
+        const rank = asRank(isCaptureInstruction ? body[3] : body[2])
         try {
           this.placePiece(piece, file, rank, isCaptureInstruction)
         } catch (exception) {
@@ -218,7 +240,9 @@ export class Interpreter {
         return new InvalidPieceRepresentationException(pieceString)
       }
     } else {
-      return new InternalErrorException(`Unrecognized instruction: ${text}`)
+      return new InternalErrorException(
+        `Unrecognized instruction: ${fullInstruction}`
+      )
     }
   }
 
