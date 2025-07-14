@@ -174,7 +174,7 @@ export class Interpreter {
     // If instruction starts with a square reference, it's an operation
     const isOperation =
       firstCharType === CharacterType.Lowercase &&
-      secondCharType === CharacterType.Lowercase &&
+      secondCharType === CharacterType.Number &&
       text.length > 4
     const isPlaceInstruction =
       secondCharType === CharacterType.Lowercase &&
