@@ -217,10 +217,6 @@ Functions are identified by a 5-bit identifier (for the purpose of defining the 
 
 Functions can currently only one operation. They're most useful when you need to perform an operation on the same two squares multiple times in a program.
 
-Note that functions are not variables, and cannot be treated as such. They do not exist on the board &ndash; do not be fooled into holding them to a higher regard than necessary. Also note that a function can have the same identifier as a variable &ndash; this is allowed (and even recommended) because they will not interact.
-
-You cannot have two functions with the same identifier. Defining a function with an identifier that is already in use will overwrite the old function. Be careful not to do this accidentally.
-
 #### Defining functions
 
 A function definition instruction consists of a function identifier, a dot, and then an operation instruction. This means it is 7 or more characters long. A detailed description of the syntax is as follows:
@@ -253,6 +249,14 @@ A.a1+a2
 a4
 a4
 ```
+
+#### Details about functions
+
+Functions are not variables, and cannot be treated as such. They do not exist on the board, so do not be fooled into holding them to a higher regard than they should be. Also note that a function can have the same identifier as a variable &ndash; this is allowed (and even recommended) because they will not interact.
+
+You cannot have two functions with the same identifier. Defining a function with an identifier that is already in use will overwrite the old function. Be careful not to do this accidentally.
+
+Functions are only evaluated when called. This means if you define a function that uses an invalid operator, it will only throw an exception when you first call it.
 
 ### Garbage collection
 
