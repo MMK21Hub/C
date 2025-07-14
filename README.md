@@ -244,7 +244,7 @@ The diagram below shows how the function identifiers (the characters on the squa
 
 #### Function example
 
-This program sets up two squares (`a1` and `a2`) with a value of B<sub>32</sub> (i.e. 1), defines the function `A` (A for add) to add the value of `a2` onto `a1`, and then calls the function twice.
+This program sets up two squares (`a1` and `a2`) with a value of B<sub>32</sub> (i.e. 1), defines the function `A` (A for add) to add the value of `a2` onto `a1`, and then calls the function twice. This should result in the `a1` square containing a value of D<sub>32</sub> (i.e. 1 + 1 + 1 = 3).
 
 ```c
 Ba1

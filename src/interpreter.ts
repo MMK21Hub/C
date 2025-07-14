@@ -117,6 +117,14 @@ export class Interpreter {
     this.board[row][col] = null
   }
 
+  private getFunction(file: File, rank: Rank): string | undefined {
+    // Please refer to function-id-mappings.svg to make any sense of this
+    const rowNumber = 4 - rank // From 0 to 3, starting at top
+    const colNumber = file.charCodeAt(0) - "a".charCodeAt(0) // From 0 to 7, starting at left
+    const functionId = rowNumber * 8 + colNumber
+    return this.functions.get(asPiece(functionId))
+  }
+
   private computeOperation(
     firstOperand: Piece | null,
     operator: string,
@@ -159,6 +167,26 @@ export class Interpreter {
     this.board[row][col] = result
   }
 
+  private performAndHandleOperation(
+    firstSquare: string,
+    operator: string,
+    secondSquare: string
+  ): CException | void {
+    try {
+      this.performOperation(firstSquare, operator, secondSquare)
+    } catch (exception) {
+      if (!(exception instanceof CException)) throw exception
+      if (
+        // Including severe NPEs here wouldn't make sense, because then the first square would be null anyway.
+        exception instanceof IntegerOverflowException ||
+        exception instanceof NullPointerException
+      ) {
+        this.throwPieceOff(firstSquare) // Mistakes have consequences
+      }
+      return exception
+    }
+  }
+
   private placePiece(piece: Piece, file: File, rank: Rank, capture = false) {
     // Writing a piece to a specific square
     const [row, col] = this.squareToIndex(file, rank)
@@ -184,11 +212,15 @@ export class Interpreter {
     const thirdCharType = characterType(body[2])
     const fourthCharType = characterType(body[3])
 
-    // If instruction starts with a square reference, it's an operation
+    // If instruction starts with a square reference (and is long enough), it's an operation
     const isOperation =
       firstCharType === CharacterType.Lowercase &&
       secondCharType === CharacterType.Number &&
       body.length > 4
+    const isFunctionCall =
+      firstCharType === CharacterType.Lowercase &&
+      secondCharType === CharacterType.Number &&
+      body.length === 2
     const isPlaceInstruction =
       secondCharType === CharacterType.Lowercase &&
       thirdCharType === CharacterType.Number
@@ -209,20 +241,7 @@ export class Interpreter {
       const firstSquare = body.slice(0, 2)
       const operator = body.slice(2, -2)
       const secondSquare = body.slice(-2)
-      // const result = this.performOperation(firstSquare, operator, secondSquare)
-      try {
-        this.performOperation(firstSquare, operator, secondSquare)
-      } catch (exception) {
-        if (!(exception instanceof CException)) throw exception
-        if (
-          // Including severe NPEs here wouldn't make sense, because then the first square would be null anyway.
-          exception instanceof IntegerOverflowException ||
-          exception instanceof NullPointerException
-        ) {
-          this.throwPieceOff(firstSquare) // Mistakes have consequences
-        }
-        return exception
-      }
+      return this.performAndHandleOperation(firstSquare, operator, secondSquare)
     } else if (isPlaceInstruction || isCaptureInstruction) {
       const pieceString = body[0]
       try {
@@ -239,6 +258,20 @@ export class Interpreter {
         if (!(error instanceof InvalidBase32Exception)) throw error
         return new InvalidPieceRepresentationException(pieceString)
       }
+    } else if (isFunctionCall) {
+      // Function call instruction
+      const file = asFile(body[0])
+      const rank = asRank(body[1])
+      const functionBody = this.getFunction(file, rank)
+      if (functionBody === undefined)
+        return new NullPointerException(
+          `Function does not exist: "${file}${rank}"`
+        )
+      // Run the function body as if it was an operation instruction
+      const firstSquare = functionBody.slice(0, 2)
+      const operator = functionBody.slice(2, -2)
+      const secondSquare = functionBody.slice(-2)
+      return this.performAndHandleOperation(firstSquare, operator, secondSquare)
     } else {
       return new InternalErrorException(
         `Unrecognized instruction: ${fullInstruction}`
