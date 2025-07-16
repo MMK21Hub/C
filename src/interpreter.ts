@@ -78,6 +78,7 @@ export class Interpreter {
   private ranks: number
   private files: number
   private functions: Map<Piece, string>
+  private variables: Map<string, Piece>
 
   constructor(config: InterpreterConfig = {}) {
     this.ranks = config.ranks || 8
@@ -85,7 +86,8 @@ export class Interpreter {
     this.board = Array.from({ length: this.ranks }, () =>
       Array(this.files).fill(null)
     )
-    this.functions = new Map<Piece, string>()
+    this.functions = new Map()
+    this.variables = new Map()
   }
 
   private squareToIndex(file: File, rank: Rank): [number, number] {
@@ -248,6 +250,10 @@ export class Interpreter {
         const piece = decodeBase32(pieceString)
         const file = asFile(isCaptureInstruction ? body[2] : body[1])
         const rank = asRank(isCaptureInstruction ? body[3] : body[2])
+        if (label) {
+          // Also assign this square to a variable
+          this.variables.set(label, piece)
+        }
         try {
           this.placePiece(piece, file, rank, isCaptureInstruction)
         } catch (exception) {
