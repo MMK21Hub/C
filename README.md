@@ -269,6 +269,20 @@ C has garbage collection. Any pieces that get thrown off the board will be re-th
 
 ### Reference
 
+#### Exceptions
+
+| Exception name               | ID (base 10) | ID (base 32) |
+| ---------------------------- | ------------ | ------------ |
+| `NullPointerException`       | 1            | B            |
+| `SevereNullPointerException` | 2            | C            |
+| `IntegerOverflowException`   | 3            | D            |
+| `DivisionByZeroException`    | 4            | E            |
+| `MemoryAccessViolation`      | 5            | F            |
+| `PieceCollisionCrash`        | 6            | G            |
+| `InternalErrorException`     | 7            | H            |
+| Any syntax error             | 30           | 6            |
+| Unknown exception            | 31           | 7            |
+
 #### Reserved characters
 
 These are characters that cannot be used in names.
