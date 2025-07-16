@@ -1,9 +1,9 @@
-import { $ } from "voby";
-import banner from "/banner.svg";
+import { $ } from "voby"
+import banner from "/banner.svg"
 
 function App(): JSX.Element {
-  const count = $(0);
-  const increment = () => count((value) => value + 1);
+  const count = $(0)
+  const increment = () => count((value) => value + 1)
 
   return (
     <main class="header flex-center text-center">
@@ -29,7 +29,7 @@ function App(): JSX.Element {
         </section>
       </div>
     </main>
-  );
+  )
 }
 
-export default App;
+export default App

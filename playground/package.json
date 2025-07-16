@@ -1,7 +1,7 @@
 {
   "name": "c-playground",
   "version": "0.0.0",
-  "description": "",
+  "description": "Try the C esolang in your browser!",
   "type": "module",
   "scripts": {
     "start": "vite",
