@@ -176,7 +176,7 @@ export class Interpreter {
     firstSquare: string,
     operator: string,
     secondSquare: string
-  ): CException | void {
+  ): void {
     try {
       this.performOperation(firstSquare, operator, secondSquare)
     } catch (exception) {
@@ -188,7 +188,7 @@ export class Interpreter {
       ) {
         this.throwPieceOff(firstSquare) // Mistakes have consequences
       }
-      return exception
+      throw exception
     }
   }
 
@@ -212,11 +212,11 @@ export class Interpreter {
     handlers.push(functionRef)
   }
 
-  private executeInstruction(fullInstruction: string): void | CException {
+  private executeInstruction(fullInstruction: string): void {
     // Work out if it looks like any variables/functions are being declared first
     const dotParts = fullInstruction.split(".")
     if (dotParts.length > 2)
-      return new CSyntaxError(
+      throw new CSyntaxError(
         "TooManyDotsException",
         `Too many dots in instruction: ${fullInstruction}`
       )
@@ -251,20 +251,15 @@ export class Interpreter {
     const instructionCouldHaveLabel =
       isOperation || isPlaceInstruction || isCaptureInstruction
     if (label && !instructionCouldHaveLabel) {
-      return new CSyntaxError(
+      throw new CSyntaxError(
         "UnexpectedDotException",
         `Unexpected dot in instruction: ${fullInstruction}`
       )
     }
     if (isOperation && label) {
       // Function definition instruction
-      try {
-        const functionId = decodeBase32(label)
-        this.functions.set(functionId, body)
-      } catch (error) {
-        if (!(error instanceof CException)) throw error
-        return error
-      }
+      const functionId = decodeBase32(label)
+      this.functions.set(functionId, body)
     } else if (isOperation) {
       const firstSquare = body.slice(0, 2)
       const operator = body.slice(2, -2)
@@ -280,15 +275,10 @@ export class Interpreter {
           // Also assign this square to a variable
           this.variables.set(label, piece)
         }
-        try {
-          this.placePiece(piece, file, rank, isCaptureInstruction)
-        } catch (exception) {
-          if (exception instanceof CException) return exception
-          throw exception
-        }
+        this.placePiece(piece, file, rank, isCaptureInstruction)
       } catch (error) {
         if (!(error instanceof InvalidBase32Exception)) throw error
-        return new InvalidPieceRepresentationException(pieceString)
+        throw new InvalidPieceRepresentationException(pieceString)
       }
     } else if (isFunctionCall) {
       // Function call instruction
@@ -296,7 +286,7 @@ export class Interpreter {
       const rank = asRank(body[1])
       const functionBody = this.getFunction(file, rank)
       if (functionBody === undefined)
-        return new NullPointerException(
+        throw new NullPointerException(
           `Function does not exist: "${file}${rank}"`
         )
       // Run the function body as if it was an operation instruction
@@ -310,7 +300,7 @@ export class Interpreter {
       const functionRef = body[1] + body[2]
       this.registerExceptionHandler(exceptionId, functionRef)
     } else {
-      return new InternalErrorException(
+      throw new InternalErrorException(
         `Unrecognized instruction: ${fullInstruction}`
       )
     }
@@ -323,10 +313,12 @@ export class Interpreter {
       return
     }
     for (const [index, text] of instructions.entries()) {
-      const result = this.executeInstruction(text)
-      if (result !== undefined) {
-        result.instructionNumber = index + 1
-        return result // Stop executing the program
+      try {
+        this.executeInstruction(text)
+      } catch (exception) {
+        if (!(exception instanceof CException)) throw exception
+        exception.instructionNumber = index + 1 // Convert index to instruction number
+        return exception // Stop executing the program
       }
     }
   }
