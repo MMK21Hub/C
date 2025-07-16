@@ -79,6 +79,8 @@ export class Interpreter {
   private files: number
   private functions: Map<Piece, string>
   private variables: Map<string, Piece>
+  /** Map of exception IDs to an array of exception handler square references */
+  private exceptionHandlers: Map<Piece, string[]>
 
   constructor(config: InterpreterConfig = {}) {
     this.ranks = config.ranks || 8
@@ -88,6 +90,7 @@ export class Interpreter {
     )
     this.functions = new Map()
     this.variables = new Map()
+    this.exceptionHandlers = new Map()
   }
 
   private squareToIndex(file: File, rank: Rank): [number, number] {
@@ -198,6 +201,17 @@ export class Interpreter {
     this.board[row][col] = piece
   }
 
+  private registerExceptionHandler(exceptionId: Piece, functionRef: string) {
+    if (!this.exceptionHandlers.has(exceptionId)) {
+      this.exceptionHandlers.set(exceptionId, [functionRef])
+      return
+    }
+    const handlers = this.exceptionHandlers.get(exceptionId)
+    if (handlers === undefined)
+      throw new InternalErrorException("Failed to access exception handler map")
+    handlers.push(functionRef)
+  }
+
   private executeInstruction(fullInstruction: string): void | CException {
     // Work out if it looks like any variables/functions are being declared first
     const dotParts = fullInstruction.split(".")
@@ -230,6 +244,10 @@ export class Interpreter {
       body[1] === "x" &&
       thirdCharType === CharacterType.Lowercase &&
       fourthCharType === CharacterType.Number
+    const isExceptionHandlerRegistrationInstruction =
+      secondCharType === CharacterType.Lowercase &&
+      thirdCharType === CharacterType.Number &&
+      body[3] === "+"
     const instructionCouldHaveLabel =
       isOperation || isPlaceInstruction || isCaptureInstruction
     if (label && !instructionCouldHaveLabel) {
@@ -286,6 +304,11 @@ export class Interpreter {
       const operator = functionBody.slice(2, -2)
       const secondSquare = functionBody.slice(-2)
       return this.performAndHandleOperation(firstSquare, operator, secondSquare)
+    } else if (isExceptionHandlerRegistrationInstruction) {
+      // Exception handler registration instruction
+      const exceptionId = decodeBase32(body[0])
+      const functionRef = body[1] + body[2]
+      this.registerExceptionHandler(exceptionId, functionRef)
     } else {
       return new InternalErrorException(
         `Unrecognized instruction: ${fullInstruction}`
