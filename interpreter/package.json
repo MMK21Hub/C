@@ -1,0 +1,16 @@
+{
+  "name": "@mmk21/c",
+  "version": "0.1.0",
+  "main": "src/main.ts",
+  "description": "A programming language that looks like Chess notation",
+  "packageManager": "yarn@4.9.2",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.13",
+    "typescript": "^5.8.3"
+  }
+}
