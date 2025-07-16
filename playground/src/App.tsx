@@ -1,5 +1,4 @@
 import { $ } from "voby"
-import banner from "/banner.svg"
 
 function App(): JSX.Element {
   const count = $(0)
@@ -7,7 +6,6 @@ function App(): JSX.Element {
 
   return (
     <main class="header flex-center text-center">
-      <img src={banner} class="logo" alt="logo" />
       <div class="mt-4 space-y-4">
         <section>
           <button class="counter" onClick={increment}>
