@@ -294,6 +294,8 @@ An exception may occur during the handling of an exception. This will cause an e
 
 #### Details about exceptions
 
+> **Tip:** Ensure you're using the base-32 ID for the exception type. Accidentally using the base-10 ID will likely either fail silently or attach a handler to the wrong exception type.
+
 - Exception handlers are registered once and will then be run each time an exception (of the specified type) is thrown.
 - Each exception handler can only handle one exception type.
 - You can have multiple exception handlers for one exception type. They will be run in the order they were registered.
