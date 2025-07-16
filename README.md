@@ -263,6 +263,46 @@ You cannot have two functions with the same identifier. Defining a function with
 
 Functions are only evaluated when called. This means if you define a function that uses an invalid operator, it will only throw an exception when you first call it.
 
+### Error handling
+
+Exceptions are thrown if some sort of error occurs while a C program is running. By default, an exception will cause program execution to finish, but most exceptions allow this to be prevented by registering an exception handler before the exception is thrown. This specifies a function to be run if the exception is thrown.
+
+There are some limitations to exception handlers:
+
+- Some exceptions have adverse side affects when thrown, throwing pieces off the board. These side effects still happen, even if the exception is handled.
+  - This affects `IntegerOverflowException`s and `NullPointerException`s
+- Some exceptions result in a crash, which means the program immediately crashes. These can't be handled.
+  - Any exceptions that this applies to will have their name end with "`Crash`".
+  - Currently, the only crash exception is a `PieceCollisionCrash`.
+
+A full list of exceptions and their numerical IDs can be found in the [reference section](#exceptions).
+
+#### Registering exception handlers
+
+An exception handler registration instruction contains the ID of the exception to catch, a reference to a function to be run, and a plus symbol to mark the instruction as an exception handler registration. It contains 4 characters in total. The syntax is as follows:
+
+1. The first character is the base-32 identifier of the exception type that should be caught.
+2. The next two characters are the square reference of the function that shall be run if the exception is thrown. These two characters are the same as a [function call instruction](#calling-functions).
+3. The forth character is a plus sign (`+`).
+
+#### Recursive exception handling
+
+An exception may occur during the handling of an exception. This will cause an exception handler to be run (if one exists) as normal.
+
+- I call this exceptions in exceptions in exceptions.
+- Idea: You could probably create loops using this mechanic. If you want.
+
+#### Details about exceptions
+
+- Exception handlers are registered once and will then be run each time an exception (of the specified type) is thrown.
+- Each exception handler can only handle one exception type.
+- You can have multiple exception handlers for one exception type. They will be run in the order they were registered.
+
+Not all possible base-32 digits correspond to an actual exception type. Be aware that:
+
+- Future versions of C may add new exceptions that use previously unmapped IDs.
+- Registering an exception handler for an ID that doesn't correspond to an exception type will simply do nothing.
+
 ### Garbage collection
 
 C has garbage collection. Any pieces that get thrown off the board will be re-thrown into a black sack and left by the kerbside. Implementations must perform garbage collection at least once weekly, except during Christmas.
@@ -271,7 +311,7 @@ C has garbage collection. Any pieces that get thrown off the board will be re-th
 
 #### Exceptions
 
-| Exception name               | ID (base 10) | ID (base 32) |
+| Exception name               | ID (base-10) | ID (base-32) |
 | ---------------------------- | ------------ | ------------ |
 | `NullPointerException`       | 1            | B            |
 | `SevereNullPointerException` | 2            | C            |
