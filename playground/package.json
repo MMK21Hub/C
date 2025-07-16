@@ -1,0 +1,25 @@
+{
+  "name": "c-playground",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview --port 5000"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.7",
+    "voby-vite": "^1.0.0"
+  },
+  "dependencies": {
+    "voby": "*"
+  },
+  "private": true
+}
