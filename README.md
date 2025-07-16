@@ -117,7 +117,7 @@ A single square could have multiple names (by attaching a second name to a captu
 You can't do anything with named memory locations (you still have to refer to the square using its coordinates). They can serve one of the following two purposes:
 
 - One of the principles of idiomatic C is source code that looks like a chess game. To help achieve this, numerical variable names may be attached to place/capture operations, to look like turn numbers in a chess game. Examples: `1.Nf3`, `4.Ba4`, `12.cxb5`
-- If you would like to peruse the non-idiomatic ideal of "maintainability", attaching human-readable variable names to your place operations might make your code more readable. Examples: `zero.Ah1`, `total.Ba1`, `Player's score.Ia4`
+- If you would like to peruse the non-idiomatic ideal of "maintainability", attaching human-readable variable names to your place operations might make your code more readable. Examples: `zero.Ah1`, `total.Ba1`, `Player's_score.Ia4`
 
 If you try to define a variable with a name that is already in use, it will work. The old variable will be gone and the new one will begin to exist.
 
