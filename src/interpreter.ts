@@ -230,6 +230,14 @@ export class Interpreter {
       body[1] === "x" &&
       thirdCharType === CharacterType.Lowercase &&
       fourthCharType === CharacterType.Number
+    const instructionCouldHaveLabel =
+      isOperation || isPlaceInstruction || isCaptureInstruction
+    if (label && !instructionCouldHaveLabel) {
+      return new CSyntaxError(
+        "UnexpectedDotException",
+        `Unexpected dot in instruction: ${fullInstruction}`
+      )
+    }
     if (isOperation && label) {
       // Function definition instruction
       try {
