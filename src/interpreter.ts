@@ -240,15 +240,18 @@ export class Interpreter {
       body.length === 2
     const isPlaceInstruction =
       secondCharType === CharacterType.Lowercase &&
-      thirdCharType === CharacterType.Number
+      thirdCharType === CharacterType.Number &&
+      body.length === 3
     const isCaptureInstruction =
       body[1] === "x" &&
       thirdCharType === CharacterType.Lowercase &&
-      fourthCharType === CharacterType.Number
+      fourthCharType === CharacterType.Number &&
+      body.length === 4
     const isExceptionHandlerRegistrationInstruction =
       secondCharType === CharacterType.Lowercase &&
       thirdCharType === CharacterType.Number &&
-      body[3] === "+"
+      body[3] === "+" &&
+      body.length === 4
     const instructionCouldHaveLabel =
       isOperation || isPlaceInstruction || isCaptureInstruction
     if (label && !instructionCouldHaveLabel) {
