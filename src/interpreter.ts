@@ -105,7 +105,7 @@ export class Interpreter {
     const [row, col] = this.squareToIndex(file, rank)
     const piece = this.board.at(row)?.at(col)
     if (piece === undefined)
-      throw new MemoryAccessViolation(`${file}${rank}`, "Out of bounds")
+      throw new MemoryAccessViolation(`${file}${rank}`, "Square out of bounds")
     return piece
   }
 
@@ -196,6 +196,9 @@ export class Interpreter {
   private placePiece(piece: Piece, file: File, rank: Rank, capture = false) {
     // Writing a piece to a specific square
     const [row, col] = this.squareToIndex(file, rank)
+    if (this.board[row][col] === undefined) {
+      throw new MemoryAccessViolation(`${file}${rank}`, "Square out of bounds")
+    }
     if (this.board[row][col] !== null && !capture) {
       throw new PieceCollisionCrash(file, rank)
     }
