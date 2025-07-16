@@ -1,6 +1,7 @@
 {
   "workspaces": [
-    "interpreter"
+    "interpreter",
+    "playground"
   ],
   "packageManager": "yarn@4.9.2"
 }
