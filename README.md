@@ -2,6 +2,10 @@
 
 > An esoteric programming language that looks like Chess notation
 
+## Brief
+
+**C** is an esoteric programming language inspired by algebraic chess notation. It lets you write programs that look almost indistinguishable from a chess game, but instead of playing a game, you're placing and manipulating data on a 8x8 grid. It uses a single 5-bit data type (called a _piece_) for all your needs, represented using base 32 encoding. It supports variables, functions, function calling, error handlers, and a number of (hyper)operations. Enjoy!
+
 ## Specification
 
 - Program memory is laid out in an 8x8 grid (called the _board_), like a chessboard.
