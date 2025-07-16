@@ -24,12 +24,21 @@ export async function run() {
     process.exit(1)
   })
   const interpreter = new Interpreter()
-  const result = interpreter.run(fileData)
+  const exceptions = interpreter.run(fileData)
   console.log(interpreter.boardToFormattedString())
-  if (result instanceof CException) {
-    const number = result.instructionNumber || "<unknown>"
-    console.error(`Uncaught exception at instruction ${number}: ${result}`)
-  }
+  if (exceptions === undefined) return // Success
+
+  // Print the exception(s) that were thrown
+  exceptions.forEach((exception, index) => {
+    const number = exception.instructionNumber || "<unknown>"
+    if (index > 0) {
+      console.error("")
+      console.error(
+        "While handling the above exception, another exception was thrown:"
+      )
+    }
+    console.error(`Uncaught exception at instruction ${number}: ${exception}`)
+  })
 }
 
 if (process.argv[1] === import.meta.filename) {

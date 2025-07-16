@@ -94,6 +94,16 @@ export class PieceCollisionCrash extends CException {
   }
 }
 
+export class MissingHandlerFunctionException extends CException {
+  constructor(exceptionId: Piece, handler: string) {
+    super(
+      "MissingHandlerFunctionException",
+      `Handler function does not exist: tried to handle exception ${exceptionId} with handler ${handler}.`
+    )
+    this.id = asPiece(9)
+  }
+}
+
 export class InternalErrorException extends CException {
   constructor(message?: string) {
     super("Internal interpreter error", message)

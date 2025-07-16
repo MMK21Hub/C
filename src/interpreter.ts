@@ -11,6 +11,7 @@ import {
   InvalidOperatorException,
   DivisionByZeroException,
   CSyntaxError,
+  MissingHandlerFunctionException,
 } from "./exceptions.js"
 import { logarithm, tetrate } from "./math.js"
 import {
@@ -306,19 +307,48 @@ export class Interpreter {
     }
   }
 
-  run(code: string): void | CException {
+  executeAndHandleInstruction(
+    text: string,
+    instructionIndex: number,
+    previousExceptions: CException[] = []
+  ): CException[] | void {
+    try {
+      this.executeInstruction(text)
+    } catch (exception) {
+      if (!(exception instanceof CException)) throw exception
+      const handlers = this.exceptionHandlers.get(exception.id) || []
+      if (!handlers.length) {
+        exception.instructionNumber = instructionIndex + 1 // Convert index to instruction number
+        // Return any previous exceptions, with the new one added to the end
+        return previousExceptions.concat(exception)
+      }
+      // Run exception handler(s)
+      for (const handler of handlers) {
+        const file = asFile(handler[0])
+        const rank = asRank(handler[1])
+        const instruction = this.getFunction(file, rank)
+        if (instruction === undefined)
+          throw new MissingHandlerFunctionException(exception.id, handler)
+        this.executeAndHandleInstruction(
+          instruction,
+          instructionIndex,
+          previousExceptions.concat(exception)
+        )
+      }
+    }
+  }
+
+  run(code: string): void | CException[] {
     const instructions = code.split(/\s+/).filter(Boolean)
     if (instructions.length === 0) {
       console.warn("Warning: Empty program provided")
       return
     }
     for (const [index, text] of instructions.entries()) {
-      try {
-        this.executeInstruction(text)
-      } catch (exception) {
-        if (!(exception instanceof CException)) throw exception
-        exception.instructionNumber = index + 1 // Convert index to instruction number
-        return exception // Stop executing the program
+      const result = this.executeAndHandleInstruction(text, index)
+      if (result !== undefined) {
+        // Stop executing the program
+        return result
       }
     }
   }
