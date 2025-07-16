@@ -360,7 +360,6 @@ export class Interpreter {
 
   boardToFormattedString(): string {
     const lines: string[] = []
-    const innerWidth = this.files * 2 - 1
     const topInnerPart = Array(this.files).fill("━━━").join("┳")
     lines.push("┏" + topInnerPart + "┓")
     this.board.forEach((row) => {
