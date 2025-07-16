@@ -289,7 +289,7 @@ An exception handler registration instruction contains the ID of the exception t
 
 An exception may occur during the handling of an exception. This will cause an exception handler to be run (if one exists) as normal.
 
-- I call this exceptions in exceptions in exceptions.
+- I call this _exceptions in exceptions **in exceptions**_.
 - Idea: You could probably create loops using this mechanic. If you want.
 
 #### Details about exceptions
@@ -297,6 +297,13 @@ An exception may occur during the handling of an exception. This will cause an e
 - Exception handlers are registered once and will then be run each time an exception (of the specified type) is thrown.
 - Each exception handler can only handle one exception type.
 - You can have multiple exception handlers for one exception type. They will be run in the order they were registered.
+
+The function that the exception handler references is only evaluated when an exception is thrown. This means:
+
+- You can define the function that the exception handler refers to after registering the handler (although this isn't recommended).
+- Another exception (a `MissingHandlerFunctionException`) will be thrown if a handler is called and it links to a non-existent function.
+  - This could cause an infinite loop if e.g. you register a non-existent function to be called to handle `MissingHandlerFunctionException`s.
+  - This behaviour is kept because it may provide a useful way to implement `while` loops. Or it might just be incredibly annoying, so this behaviour will likely be re-evaluated in a future version of C.
 
 Not all possible base-32 digits correspond to an actual exception type. Be aware that:
 
@@ -311,17 +318,18 @@ C has garbage collection. Any pieces that get thrown off the board will be re-th
 
 #### Exceptions
 
-| Exception name               | ID (base-10) | ID (base-32) |
-| ---------------------------- | ------------ | ------------ |
-| `NullPointerException`       | 1            | B            |
-| `SevereNullPointerException` | 2            | C            |
-| `IntegerOverflowException`   | 3            | D            |
-| `DivisionByZeroException`    | 4            | E            |
-| `MemoryAccessViolation`      | 5            | F            |
-| `PieceCollisionCrash`        | 6            | G            |
-| `InternalErrorException`     | 7            | H            |
-| Any syntax error             | 30           | 6            |
-| Unknown exception            | 31           | 7            |
+| Exception name                    | ID (base-10) | ID (base-32) |
+| --------------------------------- | ------------ | ------------ |
+| `NullPointerException`            | 1            | B            |
+| `SevereNullPointerException`      | 2            | C            |
+| `IntegerOverflowException`        | 3            | D            |
+| `DivisionByZeroException`         | 4            | E            |
+| `MemoryAccessViolation`           | 5            | F            |
+| `PieceCollisionCrash`             | 6            | G            |
+| `InternalErrorException`          | 7            | H            |
+| `MissingHandlerFunctionException` | 9            | J            |
+| Any syntax error                  | 30           | 6            |
+| Unknown exception                 | 31           | 7            |
 
 #### Reserved characters
 
