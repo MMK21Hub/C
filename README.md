@@ -289,6 +289,25 @@ An exception handler registration instruction contains the ID of the exception t
 2. The next two characters are the square reference of the function that shall be run if the exception is thrown. These two characters are the same as a [function call instruction](#calling-functions).
 3. The forth character is a plus sign (`+`).
 
+#### Exception handling example
+
+In the example code below:
+
+1. The first line defines a function `E` (square ref `e4`) that adds `a1` to `b1`
+2. The second line registers the function from above as an exception handler for `MemoryAccessViolation`s
+3. The third and forth lines place a value of B<sub>32</sub> (i.e. 1) on the squares `a1` and `b1`, respectively
+4. The fifth line attempts to place a piece on `j3`, which is outside the default 8x8 board. This throws a `MemoryAccessViolation` exception.
+
+The exception caused by the last line gets caught, so `b1+a1` runs, which results in the value at `b1` being updated to C<sub>32</sub>.
+
+```c
+E.b1+a1
+Fe4+
+Ba1
+Bb1
+Aj3
+```
+
 #### Recursive exception handling
 
 An exception may occur during the handling of an exception. This will cause an exception handler to be run (if one exists) as normal.
