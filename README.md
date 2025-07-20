@@ -267,6 +267,8 @@ You cannot have two functions with the same identifier. Defining a function with
 
 Functions are only evaluated when called. This means if you define a function that uses an invalid operator, it will only throw an exception when you first call it.
 
+When a function is called, all the normal rules of an [operation instruction](#operations) apply. This means a function call can potentially lead to pieces and/or exceptions being thrown if a problem occurs.
+
 ### Error handling
 
 Exceptions are thrown if some sort of error occurs while a C program is running. By default, an exception will cause program execution to finish, but most exceptions allow this to be prevented by registering an exception handler before the exception is thrown. This specifies a function to be run if the exception is thrown.
@@ -343,18 +345,26 @@ C has garbage collection. Any pieces that get thrown off the board will be re-th
 
 #### Exceptions
 
-| Exception name                    | ID (base-10) | ID (base-32) |
-| --------------------------------- | ------------ | ------------ |
-| `NullPointerException`            | 1            | B            |
-| `SevereNullPointerException`      | 2            | C            |
-| `IntegerOverflowException`        | 3            | D            |
-| `DivisionByZeroException`         | 4            | E            |
-| `MemoryAccessViolation`           | 5            | F            |
-| `PieceCollisionCrash`             | 6            | G            |
-| `InternalErrorException`          | 7            | H            |
-| `MissingHandlerFunctionException` | 9            | J            |
-| Any syntax error                  | 30           | 6            |
-| Unknown exception                 | 31           | 7            |
+| Exception name                    | ID (base-10) | ID (base-32) | Throws pieces? | Crash? |
+| --------------------------------- | ------------ | ------------ | -------------- | ------ |
+| `NullPointerException`            | 1            | B            | ⚠️ Yes         | No     |
+| `SevereNullPointerException`      | 2            | C            | No             | No     |
+| `IntegerOverflowException`        | 3            | D            | ⚠️ Sometimes   | No     |
+| `DivisionByZeroException`         | 4            | E            | No             | No     |
+| `MemoryAccessViolation`           | 5            | F            | No             | No     |
+| `PieceCollisionCrash`             | 6            | G            | No             | 💥 Yes |
+| `InternalErrorException`          | 7            | H            | No             | No     |
+| `MissingHandlerFunctionException` | 9            | J            | No             | No     |
+| Any syntax error                  | 30           | 6            | No             | No     |
+| Unknown exception                 | 31           | 7            | No             | No     |
+
+Explanations for the table headings:
+
+- **Throws pieces?** &ndash; Whether this exception will cause a piece to be thrown off the board if it gets thrown while performing an operation.
+  - `NullPointerException`s will always throw pieces off the board.
+  - `IntegerOverflowException`s will only throw pieces off the board if the exception occurred while executing an operation. If it occurs in another context, it will not throw a piece off the board.
+- **Crash?** &ndash; Whether this exception will crash the program immediately without any chance to catch it.
+  - Currently, a `PieceCollisionCrash` is the only type of crash.
 
 #### Reserved characters
 
@@ -370,3 +380,5 @@ The code in this project has primarily been written by me, but I have used GitHu
 In the documentation, I have used inline completions very minimally.
 
 I have used ChatGPT for low-impact research, such as asking how other languages name their errors.
+
+<!-- markdownlint-disable-file no-inline-html -->
