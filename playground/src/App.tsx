@@ -5,26 +5,17 @@ function App(): JSX.Element {
   const increment = () => count((value) => value + 1)
 
   return (
-    <main class="header flex-center text-center">
-      <div class="mt-4 space-y-4">
-        <section>
-          <button class="counter" onClick={increment}>
-            count is: {count}
-          </button>
-        </section>
-        <p class="text-2xl">
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <section>
-          <a
-            class="text-[#2f2f2f] text-2xl font-normal underline underline-offset-2"
-            href="https://github.com/vobyjs/voby"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Voby
-          </a>
-        </section>
+    <main class="header flex-center text-center h-[100dvh]">
+      <div class="flex h-full">
+        <div>
+          <textarea
+            class="textarea w-full"
+            placeholder="Start writing some code..."
+          ></textarea>
+        </div>
+        <div class="">
+          <h2>Output</h2>
+        </div>
       </div>
     </main>
   )
