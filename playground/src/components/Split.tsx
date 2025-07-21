@@ -13,6 +13,19 @@ export const Split = createDirective(
     const childElements = Array.from(container.children).filter(
       (child) => child instanceof HTMLElement
     )
+    const createGutter = (
+      <div
+        class={[
+          "bg-base-300",
+          () =>
+            $$(reactiveOptions.direction) === "vertical"
+              ? ["bg-gutter-vertical", "cursor-row-resize"]
+              : ["bg-gutter-horizontal", "cursor-col-resize"],
+        ]}
+      />
+    ) as () => HTMLDivElement
+    const gutter = createGutter()
+
     let instance: SplitJS.Instance | null = null
     useEffect(() => {
       if (instance) instance.destroy(true, true)
@@ -22,14 +35,20 @@ export const Split = createDirective(
       container.classList.add(
         newDirection === "vertical" ? "flex-col" : "flex-row"
       )
+      // Clear the inline-styled width/height of the gutter, so that SplitJS can properly apply the new styles
+      gutter.style = ""
       // Instantiate a new SplitJS instance
       const resolvedOptions: SplitJS.Options = Object.fromEntries(
         Object.entries(reactiveOptions).map(([key, value]) => [
           key,
-          $$(value, false), // Gets the value out of the osbservable
+          $$(value, false), // Gets the value out of the observable
         ])
       )
-      instance = SplitJS(childElements, resolvedOptions)
+      console.log(gutter)
+      instance = SplitJS(childElements, {
+        gutter: () => gutter,
+        ...resolvedOptions,
+      })
     })
   }
 )
