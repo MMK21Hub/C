@@ -16,10 +16,17 @@ export const Split = createDirective(
     let instance: SplitJS.Instance | null = null
     useEffect(() => {
       if (instance) instance.destroy(true, true)
+      // Update flex direction
+      const newDirection = $$(reactiveOptions.direction)
+      container.classList.remove("flex-col", "flex-row")
+      container.classList.add(
+        newDirection === "vertical" ? "flex-col" : "flex-row"
+      )
+      // Instantiate a new SplitJS instance
       const resolvedOptions: SplitJS.Options = Object.fromEntries(
         Object.entries(reactiveOptions).map(([key, value]) => [
           key,
-          $$(value, false), // Gets the value out of the observable
+          $$(value, false), // Gets the value out of the osbservable
         ])
       )
       instance = SplitJS(childElements, resolvedOptions)
