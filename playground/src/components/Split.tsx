@@ -35,8 +35,9 @@ export const Split = createDirective(
       container.classList.add(
         newDirection === "vertical" ? "flex-col" : "flex-row"
       )
-      // Clear the inline-styled width/height of the gutter, so that SplitJS can properly apply the new styles
+      // Clear the inline-styled width/height of the children, so that SplitJS can properly apply the new styles
       gutter.style = ""
+      childElements.forEach((child) => (child.style = ""))
       // Instantiate a new SplitJS instance
       const resolvedOptions: SplitJS.Options = Object.fromEntries(
         Object.entries(reactiveOptions).map(([key, value]) => [
