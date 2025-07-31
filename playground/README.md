@@ -2,4 +2,19 @@
 
 > Try the C esolang in your browser!
 
-Made with Voby and Tailwind CSS.
+![Screenshot of a sample program running on the website](screenshot.png)
+
+An online playground/demo for the "C" programming language, made with Voby, Tailwind CSS and daisyUI.
+
+If you're wondering what this programming language is, you should probably read the [project's main README.md](../README.md) first.
+
+## Try it online
+
+Head to **<https://c-playground.netlify.app/>**
+
+## Contributing
+
+1. Clone the monorepo: `git clone https://github.com/MMK21Hub/C.git`
+2. `cd C`
+3. Install dependencies: `yarn install`
+4. Start the development server: `yarn workspace c-playground dev`

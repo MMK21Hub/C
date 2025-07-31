@@ -6,6 +6,14 @@
 
 **C** is an esoteric programming language inspired by algebraic chess notation. It lets you write programs that look almost indistinguishable from a chess game, but instead of playing a game, you're placing and manipulating data on a 8x8 grid. It uses a single 5-bit data type (called a _piece_) for all your needs, represented using base 32 encoding. It supports variables, functions, function calling, error handlers, and a number of (hyper)operations. Enjoy!
 
+## Try it online
+
+[![Screenshot of a sample program running on the playground](playground/screenshot.png)](https://c-playground.netlify.app/)
+
+- Run C in your browser with the C Playground: **[🌎 https://c-playground.netlify.app/](https://c-playground.netlify.app/)**
+
+See [playground/README.md](playground/README.md) for more information about the C Playground.
+
 ## Specification
 
 - Program memory is laid out in an 8x8 grid (called the _board_), like a chessboard.
