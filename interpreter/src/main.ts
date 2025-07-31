@@ -3,3 +3,4 @@ import type { Piece } from "./types.js"
 export { InterpreterConfig, Piece }
 export { Interpreter } from "./interpreter.js"
 export { asPiece } from "./types.js"
+export * from "./exceptions.js"

@@ -2,9 +2,10 @@ import { $, useMemo } from "voby"
 import { Split } from "./Split"
 import { viewportWidth } from "../appState"
 import { Interpreter } from "@mmk21/c"
+import ProgramOutput, { ProgramOutputData } from "./ProgramOutput"
 
 export default function Workspace() {
-  const outputString = $<string | null>(null)
+  const programOutput = $<ProgramOutputData | null>(null)
 
   function runCode() {
     const codeInput = document.getElementById(
@@ -14,7 +15,10 @@ export default function Workspace() {
     const code = codeInput.value
     const interpreter = new Interpreter()
     const exceptions = interpreter.run(code)
-    outputString(interpreter.boardToFormattedString())
+    programOutput({
+      output: interpreter.boardToFormattedString(),
+      exceptions: exceptions || [],
+    })
   }
 
   return (
@@ -41,7 +45,11 @@ export default function Workspace() {
         </div>
         <div class="py-2 px-2">
           <h2 class="font-semibold text-xl mb-2">Output</h2>
-          <pre class="overflow-auto leading-none py-2">{outputString}</pre>
+          {() => {
+            const outputData = programOutput()
+            if (!outputData) return <div class="">Nothing yet :(</div>
+            return <ProgramOutput data={outputData} />
+          }}
         </div>
       </div>
     </Split.Provider>
