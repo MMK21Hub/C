@@ -282,7 +282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mmk21/c@workspace:interpreter":
+"@mmk21/c@workspace:*, @mmk21/c@workspace:interpreter":
   version: 0.0.0-use.local
   resolution: "@mmk21/c@workspace:interpreter"
   dependencies:
@@ -767,6 +767,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "c-playground@workspace:playground"
   dependencies:
+    "@mmk21/c": "workspace:*"
     "@tailwindcss/vite": "npm:^4.1.11"
     autoprefixer: "npm:^10.4.21"
     daisyui: "npm:^5.0.46"
