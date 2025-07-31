@@ -2,6 +2,7 @@
   "name": "@mmk21/c",
   "version": "0.1.0",
   "main": "src/main.ts",
+  "license": "MIT",
   "description": "A programming language that looks like Chess notation",
   "packageManager": "yarn@4.9.2",
   "type": "module",
