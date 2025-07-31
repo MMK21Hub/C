@@ -16,7 +16,7 @@ export const Split = createDirective(
     const createGutter = (
       <div
         class={[
-          "bg-base-300",
+          // "bg-base-200",
           () =>
             $$(reactiveOptions.direction) === "vertical"
               ? ["bg-gutter-vertical", "cursor-row-resize"]

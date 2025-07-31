@@ -6,9 +6,9 @@
   default: true;
   prefersdark: true;
   color-scheme: "dark";
-  --color-base-100: oklch(27% 0.046 192.524);
-  --color-base-200: oklch(27% 0.046 192.524);
-  --color-base-300: oklch(43% 0.078 188.216);
+  --color-base-100: oklch(27% 0.041 260.031);
+  --color-base-200: oklch(20% 0.042 265.755);
+  --color-base-300: oklch(12% 0.042 264.695);
   --color-base-content: oklch(95% 0.052 163.051);
   --color-primary: oklch(62% 0.214 259.815);
   --color-primary-content: oklch(97% 0.014 254.604);
@@ -16,7 +16,7 @@
   --color-secondary-content: oklch(29% 0.066 243.157);
   --color-accent: oklch(75% 0.183 55.934);
   --color-accent-content: oklch(26% 0.079 36.259);
-  --color-neutral: oklch(27% 0.041 260.031);
+  --color-neutral: oklch(37% 0.044 257.287);
   --color-neutral-content: oklch(92% 0.013 255.508);
   --color-info: oklch(74% 0.16 232.661);
   --color-info-content: oklch(29% 0.066 243.157);
@@ -40,10 +40,12 @@
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
   background-repeat: no-repeat;
   background-position: 50%;
+  background-color: color-mix(in oklab, currentcolor 20%, transparent);
 }
 
 .bg-gutter-vertical {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
   background-repeat: no-repeat;
   background-position: 50%;
+  background-color: color-mix(in oklab, currentcolor 20%, transparent);
 }
