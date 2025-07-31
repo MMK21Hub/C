@@ -1,0 +1,29 @@
+{
+  "name": "c-playground",
+  "version": "0.1.0",
+  "description": "Try the C esolang in your browser!",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview --port 5000"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.4",
+    "voby-vite": "^1.2.5"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "daisyui": "^5.0.46",
+    "split.js": "^1.6.5",
+    "@mmk21/c": "workspace:*",
+    "voby": "^0.58.1"
+  },
+  "private": true
+}
