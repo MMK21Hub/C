@@ -9,7 +9,7 @@ export interface ProgramOutputData {
 
 export default function ProgramOutput({ data }: { data: ProgramOutputData }) {
   return (
-    <>
+    <div class="flex flex-col items-center">
       <pre class="overflow-auto leading-none py-2">{data.output}</pre>
       <For values={data.exceptions}>
         {(exception) => (
@@ -21,6 +21,6 @@ export default function ProgramOutput({ data }: { data: ProgramOutputData }) {
           </div>
         )}
       </For>
-    </>
+    </div>
   )
 }
