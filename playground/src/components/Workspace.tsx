@@ -36,6 +36,11 @@ export default function Workspace() {
             class="textarea w-full h-full"
             id="code-input"
             placeholder="Start writing some code..."
+            onKeyUp={(e: KeyboardEvent) => {
+              if (e.key === "Enter" && e.ctrlKey) {
+                runCode()
+              }
+            }}
           ></textarea>
           <div class="flex justify-end">
             <button class="btn mt-2" onClick={runCode}>
