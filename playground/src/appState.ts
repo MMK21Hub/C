@@ -6,3 +6,5 @@ window.addEventListener("resize", () => {
   viewportWidth(window.innerWidth)
   viewportHeight(window.innerHeight)
 })
+
+export const codeEditorContents = $("")

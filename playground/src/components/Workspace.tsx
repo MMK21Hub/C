@@ -1,6 +1,6 @@
 import { $, useMemo } from "voby"
 import { Split } from "./Split"
-import { viewportWidth } from "../appState"
+import { codeEditorContents, viewportWidth } from "../appState"
 import { Interpreter } from "@mmk21/c"
 import ProgramOutput, { ProgramOutputData } from "./ProgramOutput"
 
@@ -33,14 +33,19 @@ export default function Workspace() {
       >
         <div class="py-2 px-2 flex flex-col">
           <textarea
-            class="textarea w-full h-full"
+            class="textarea w-full h-full font-mono"
             id="code-input"
             placeholder="Start writing some code..."
-            onKeyUp={(e: KeyboardEvent) => {
+            onKeyUp={(e) => {
               if (e.key === "Enter" && e.ctrlKey) {
                 runCode()
               }
             }}
+            onInput={(e) => {
+              const element = e.target as HTMLTextAreaElement
+              codeEditorContents(element.value)
+            }}
+            value={codeEditorContents}
           ></textarea>
           <div class="flex justify-end">
             <button class="btn mt-2" onClick={runCode}>
