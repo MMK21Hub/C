@@ -1,10 +1,13 @@
 import IconBrandGithub from "../icons/github"
+import IconHexagonLetterC from "../icons/hexagon-letter-c"
 
 export function TopAppBar() {
   return (
     <div class="navbar bg-base-100 shadow-sm">
       <div class="flex-1">
-        <span class="font-semibold text-xl mx-2">C Playground</span>
+        <div class="flex gap-1.5 items-center font-semibold text-xl mx-2">
+          {IconHexagonLetterC}C Playground
+        </div>
       </div>
       <div class="flex-none">
         <ul class="menu menu-horizontal px-1">
