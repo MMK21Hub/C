@@ -10,7 +10,7 @@ export function TopAppBar() {
     <div class="navbar bg-base-100 shadow-sm">
       <div class="flex-none">
         <div class="flex gap-1.5 items-center font-semibold text-xl mx-2">
-          {IconHexagonLetterC}C Playground
+          {IconHexagonLetterC} C Playground
         </div>
       </div>
       <div class="flex-1">
