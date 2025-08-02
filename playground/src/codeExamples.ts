@@ -3,7 +3,7 @@ import { codeEditorContents } from "./appState"
 export const codeExamples: {
   [title: string]: string[]
 } = {
-  Addition: ["total.Ba1", "total.Ba2", "A.a1+A.a2", "a4", "a4"],
+  Addition: ["total.Ba1", "total.Ba2", "A.a1+a2", "a4", "a4"],
   "Error handling": ["E.b1+a1", "Fe4+", "Ba1", "Bb1", "Aj3"],
 }
 
