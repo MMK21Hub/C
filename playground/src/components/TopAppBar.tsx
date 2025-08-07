@@ -3,10 +3,10 @@ import IconBrandGithub from "../icons/github"
 import IconHexagonLetterC from "../icons/hexagon-letter-c"
 import { codeExamples, loadCodeExample } from "../codeExamples"
 import { Link } from "voby-simple-router"
+import NavbarSubMenu from "./NavbarSubMenu"
 
 export function TopAppBar() {
   const examplesMenuOpen = $(false)
-  console.log(examplesMenuOpen)
   return (
     <div class="navbar bg-base-100 shadow-sm">
       <div class="flex-none">
@@ -22,16 +22,7 @@ export function TopAppBar() {
             </Link>
           </li>
           <li>
-            <details
-              open={examplesMenuOpen}
-              onToggle={(e) => {
-                if (!(e.target instanceof HTMLDetailsElement))
-                  throw new Error(
-                    "Handling open event on an unexpected element"
-                  )
-                examplesMenuOpen(e.target.open)
-              }}
-            >
+            <NavbarSubMenu open={examplesMenuOpen}>
               <summary>Examples</summary>
               <ul
                 class="bg-base-200 rounded-t-none p-2 w-xs z-10"
@@ -52,7 +43,7 @@ export function TopAppBar() {
                   )}
                 </For>
               </ul>
-            </details>
+            </NavbarSubMenu>
           </li>
         </ul>
       </div>
