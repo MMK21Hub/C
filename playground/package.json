@@ -23,7 +23,8 @@
     "@tailwindcss/vite": "^4.1.11",
     "daisyui": "^5.0.46",
     "split.js": "^1.6.5",
-    "voby": "^0.58.1"
+    "voby": "^0.58.1",
+    "voby-simple-router": "^1.5.0"
   },
   "private": true
 }
