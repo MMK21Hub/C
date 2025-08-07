@@ -777,6 +777,7 @@ __metadata:
     typescript: "npm:^5.8.3"
     vite: "npm:^7.0.4"
     voby: "npm:^0.58.1"
+    voby-simple-router: "npm:^1.5.0"
     voby-vite: "npm:^1.2.5"
   languageName: unknown
   linkType: soft
@@ -1801,8 +1802,6 @@ __metadata:
 "root-workspace-0b6124@workspace:.":
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
-  dependencies:
-    voby-simple-router: "npm:^1.5.0"
   languageName: unknown
   linkType: soft
 
