@@ -1,4 +1,4 @@
-import { $, Observable, useEffect } from "voby"
+import { $, Observable, useDisposed, useEffect } from "voby"
 
 export default function NavbarSubMenu(props: {
   open?: Observable<boolean>
@@ -6,15 +6,27 @@ export default function NavbarSubMenu(props: {
   class?: JSX.Class
 }) {
   const isOpen = props.open || $(false)
+  let abortController = new AbortController()
   useEffect(() => {
-    document.addEventListener("click", (event) => {
-      if (!(event.target instanceof Element)) return
-      // Ignore clicks within the submenu container
-      const withinSubmenu = event.target.closest(".navbar-submenu")
-      if (withinSubmenu) return
-      // Close if the user clicks outside the submenu
-      isOpen(false)
-    })
+    document.addEventListener(
+      "click",
+      (event) => {
+        if (!(event.target instanceof Element)) return
+        // Ignore clicks within the submenu container
+        const withinSubmenu = event.target.closest(".navbar-submenu")
+        if (withinSubmenu) return
+        // Close if the user clicks outside the submenu
+        isOpen(false)
+      },
+      {
+        signal: abortController.signal,
+      }
+    )
+  })
+  // Remove the event listener when the component is disposed
+  useEffect(() => {
+    const disposed = useDisposed()
+    if (disposed()) abortController.abort()
   })
 
   // useEffect(() => {
