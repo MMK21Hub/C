@@ -14,7 +14,8 @@ export default function Home() {
               </div>
 
               <p class="text-xl text-base-content/80 max-w-2xl mx-auto leading-relaxed">
-                An esoteric programming language that looks like Chess notation
+                Try the esoteric programming language that looks like Chess
+                notation
               </p>
 
               <p class="text-lg text-base-content/70 max-w-3xl mx-auto leading-relaxed">
