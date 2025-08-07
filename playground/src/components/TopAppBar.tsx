@@ -11,7 +11,7 @@ export function TopAppBar() {
     <div class="navbar bg-base-100 shadow-sm">
       <div class="flex-none">
         <Link to="/" class="btn btn-ghost text-xl">
-          {IconHexagonLetterC} C Playground
+          {IconHexagonLetterC} C Esolang
         </Link>
       </div>
       <div class="flex-1">

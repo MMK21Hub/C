@@ -23,11 +23,19 @@ export default function Home() {
                 manipulating data on an 8×8 grid using 5-bit values called{" "}
                 <em>pieces</em>.
               </p>
+
+              <p class="text-lg text-base-content/70 max-w-3xl mx-auto leading-relaxed">
+                Not to be confused with any similarly-named serious programming
+                languages.
+              </p>
             </div>
 
             <div class="space-y-6 mt-12">
               <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="https://github.com/MMK21Hub/C" class="btn btn-lg">
+                <a
+                  href="https://github.com/MMK21Hub/C#specification"
+                  class="btn btn-lg"
+                >
                   {IconBook}
                   Read the specification
                 </a>
