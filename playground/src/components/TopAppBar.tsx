@@ -2,6 +2,7 @@ import { $, For } from "voby"
 import IconBrandGithub from "../icons/github"
 import IconHexagonLetterC from "../icons/hexagon-letter-c"
 import { codeExamples, loadCodeExample } from "../codeExamples"
+import { Link } from "voby-simple-router"
 
 export function TopAppBar() {
   const examplesMenuOpen = $(false)
@@ -9,12 +10,17 @@ export function TopAppBar() {
   return (
     <div class="navbar bg-base-100 shadow-sm">
       <div class="flex-none">
-        <div class="flex gap-1.5 items-center font-semibold text-xl mx-2">
+        <Link to="/" class="btn btn-ghost text-xl">
           {IconHexagonLetterC} C Playground
-        </div>
+        </Link>
       </div>
       <div class="flex-1">
         <ul class="menu menu-horizontal px-1">
+          <li>
+            <Link to="/playground" class="">
+              Playground
+            </Link>
+          </li>
           <li>
             <details
               open={examplesMenuOpen}
