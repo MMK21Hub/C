@@ -19,6 +19,13 @@ const routes: RouterRoute[] = [
   },
 ]
 
+/**
+ * Root component that sets up client-side routing and renders the main application layout.
+ *
+ * Wraps the application in a router, displays the top app bar, and renders the component matching the current route.
+ *
+ * @returns The root JSX element for the application
+ */
 function App(): JSX.Element {
   return (
     <Router routes={routes}>

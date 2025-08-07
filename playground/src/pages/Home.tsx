@@ -2,6 +2,9 @@ import { Link } from "voby-simple-router"
 import IconBook from "../icons/book"
 import IconCode from "../icons/code"
 
+/**
+ * Renders the main landing page for the "C" esoteric programming language, featuring a hero section with descriptive text and call-to-action buttons for viewing the specification and accessing an interactive playground.
+ */
 export default function Home() {
   return (
     <main class="flex-1">

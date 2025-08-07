@@ -5,6 +5,11 @@ import { codeExamples, loadCodeExample } from "../codeExamples"
 import { Link } from "voby-simple-router"
 import NavbarSubMenu from "./NavbarSubMenu"
 
+/**
+ * Renders the top navigation bar for the application, including links to the home page, playground, code examples submenu, and GitHub repository.
+ *
+ * The navigation bar features a dynamic submenu for selecting and loading code examples. Selecting an example loads it and closes the submenu.
+ */
 export function TopAppBar() {
   const examplesMenuOpen = $(false)
   return (

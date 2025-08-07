@@ -1,5 +1,15 @@
 import { $, Observable, useEffect } from "voby"
 
+/**
+ * Renders a submenu as a `<details>` element that can be toggled open or closed, closing automatically when clicking outside the submenu.
+ *
+ * The open state can be controlled via an observable or managed internally. Additional props are forwarded to the `<details>` element, and submenu content is rendered as children.
+ *
+ * @param open - Optional observable controlling the open state of the submenu
+ * @param children - The submenu content to display
+ * @param class - Optional additional CSS classes for styling
+ * @returns A submenu container element with toggle and auto-close behavior
+ */
 export default function NavbarSubMenu(props: {
   open?: Observable<boolean>
   children: JSX.Children
