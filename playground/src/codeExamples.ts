@@ -3,6 +3,7 @@ import { codeEditorContents } from "./appState"
 export const codeExamples: {
   [title: string]: string[]
 } = {
+  "Placing pieces": ["Aa1", "Bb1", "Cc1", "Dd1", "Ee1", "Ff1", "Gg1", "Hh1"],
   Addition: ["total.Ba1", "total.Ba2", "A.a1+a2", "a4", "a4"],
   "Error handling": ["E.b1+a1", "Fe4+", "Ba1", "Bb1", "Aj3"],
 }
