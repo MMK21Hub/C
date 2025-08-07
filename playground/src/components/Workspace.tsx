@@ -57,7 +57,17 @@ export default function Workspace() {
           <h2 class="font-semibold text-xl mb-2">Output</h2>
           {() => {
             const outputData = programOutput()
-            if (!outputData) return <div class="">Nothing yet :(</div>
+            if (!outputData)
+              return (
+                <div class="">
+                  No output yet. Select an example program at the top and hit
+                  the{" "}
+                  <button class="link" onClick={runCode}>
+                    run code
+                  </button>{" "}
+                  button.
+                </div>
+              )
             return <ProgramOutput data={outputData} />
           }}
         </div>
