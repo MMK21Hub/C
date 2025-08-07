@@ -1,5 +1,3 @@
-import { $ } from "voby"
-import Workspace from "./components/Workspace"
 import { TopAppBar } from "./components/TopAppBar"
 import { Route, Router, RouterRoute } from "voby-simple-router"
 import Playground from "./pages/Playground"
