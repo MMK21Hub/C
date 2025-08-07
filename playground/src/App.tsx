@@ -1,11 +1,16 @@
 import { TopAppBar } from "./components/TopAppBar"
 import { Route, Router, RouterRoute } from "voby-simple-router"
 import Playground from "./pages/Playground"
+import Error404 from "./pages/404"
 
 const routes: RouterRoute[] = [
   {
     path: "/playground",
     to: Playground,
+  },
+  {
+    path: "/404",
+    to: Error404,
   },
 ]
 
