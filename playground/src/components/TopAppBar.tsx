@@ -2,10 +2,11 @@ import { $, For } from "voby"
 import IconBrandGithub from "../icons/github"
 import IconHexagonLetterC from "../icons/hexagon-letter-c"
 import { codeExamples, loadCodeExample } from "../codeExamples"
-import { Link } from "voby-simple-router"
+import { Link, useNavigate } from "voby-simple-router"
 import NavbarSubMenu from "./NavbarSubMenu"
 
 export function TopAppBar() {
+  const navigate = useNavigate()
   const examplesMenuOpen = $(false)
   return (
     <div class="navbar bg-base-100 shadow-sm">
@@ -30,6 +31,7 @@ export function TopAppBar() {
                   if (target instanceof HTMLButtonElement) {
                     if (!target.dataset.example)
                       throw new Error("Button is not linked to an example")
+                    navigate("/playground")
                     const loaded = loadCodeExample(target.dataset.example)
                     if (loaded) examplesMenuOpen(false)
                   }
